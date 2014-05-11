@@ -7,7 +7,7 @@ function population = generatePopulation(popSize, genSize)
 % genSize: Groesse des Genoms eines Individuums. Gene werden zufällig
 % gleichverteilt initialisiert.
 
-population = randi([0, 1],popSize,genSize);
+population = randi([0,1],popSize,genSize);
 
 end
 

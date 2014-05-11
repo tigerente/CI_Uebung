@@ -1,4 +1,4 @@
-function identityVector = stochasticUniversalSampling(fitnessVector, nOffspring)
+function identityVector = stochasticUniversalSampling(fitnessVector, nOffspring, flagWindowing)
 % STOCHASTICUNIVERSALSAMPLING:
 % Waehlt aus einer Population mit nach dem Verfahren des "Stochastic
 % Universal Sampling" je nach relativer Fitness die Elternteile aus, die
@@ -7,21 +7,22 @@ function identityVector = stochasticUniversalSampling(fitnessVector, nOffspring)
 %   fitnessVector: Fitnessweerte der Individuen, aus denen die Elternteile
 %   ausgewaehlt werden sollen
 %   nOffspring: Anzahl der Eltern, die ausgewaehlt werden sollen
+%   flagWindowing: flag-Variable, die angibt, ob windowing genutzt wird
 % Return: Gibt einen Vektor mit Identitaeten der Elternteile zurueck.
 %   Identitaet = Index der Zeile des Individuums in der Population = Index
 %   der Zeile des Individuums in 'fitnessVector'
 
+% Abfrage von 'flagWindowing'
+if flagWindowing == true
+    % schwaechste Fitness von allen anderen Fitnesses abziehen
+    fitnessVector = fitnessVector - min(fitnessVector);
+end
 
 % relative Fitness berechnen
 % Vektor fuer relative Fitness und Identitaet
-relativeFitness = zeros(numel(fitnessVector),2);   
-% Summe aller Fitnesses
-sumFit = sum(fitnessVector);                        
-
-for i=1:numel(fitnessVector)
-    relativeFitness(i,1) = fitnessVector(i)/sumFit;
-    relativeFitness(i,2) = i;
-end
+relativeFitness = zeros(numel(fitnessVector),2);                    
+relativeFitness(:,1) = fitnessVector/sum(fitnessVector);
+relativeFitness(:,2) = 1:numel(fitnessVector);
 
 % 'relativeFitness' nach Fitnesswert absteigend sortieren,
 % Identitaetszuweisung beibehalten
