@@ -13,6 +13,7 @@ numIndivids = 16;
 flipProbability = 0.01;
 numGenerations = 100;
 numElite = 0;
+flagWindowing = false;
 flagGrayCode = false;
 fHandle = @fitnessFunction;
 
@@ -35,13 +36,13 @@ worstVal = zeros(1,numGenerations+1);
 
 [maxValue, maxIdx] = max(fitness);
 
-bestVal(1) = maxValue(1);
-bestArgument(1) = getArgumentValue(population,maxIdx(1),flagGrayCode);
+bestVal(1) = maxValue;
+bestArgument(1) = getArgumentValue(population,maxIdx,flagGrayCode);
 meanVal(1) = mean(fitness);
 worstVal(1) = min(fitness);
 
 % Bestes bisher gefundenes Individuum
-bestIndividuum = maxValue;
+bestIndividuum = [bestArgument(1),maxValue];
 
 % Matrix fuer Elite
 if flagElite == true;
@@ -57,10 +58,10 @@ for i=1:numGenerations
     end
     
     % Folgegeneration erstellen
-    population = doCrossover(population,fitness,numIndivids,false);
+    population = doCrossover(population,fitness,numIndivids,flagWindowing);
     
     % Mutieren
-    mutatePopulation(population,flipProbability);
+    population = mutatePopulation(population,flipProbability);
     
     % Elite zurueck in Population fuegen
     if flagElite == true
@@ -72,8 +73,8 @@ for i=1:numGenerations
     
     % Bestes Individuum merken
     [maxValue, maxIdx] = max(fitness);
-    if maxValue > bestIndividuum
-        bestIndividuum = maxValue;
+    if maxValue > bestIndividuum(2)
+        bestIndividuum = [getArgumentValue(population,maxIdx,flagGrayCode),maxValue];
     end
     
     % Performancegroessen der Population 
@@ -122,13 +123,14 @@ set(legende2,'Location', 'southeast');
 ax(3) = subplot(3,1,3);
 hold on
 plot(xValuesShow,fHandle(xValuesShow),'k');
+plot(bestIndividuum(1),bestIndividuum(2),'*g');
 plot(bestArgument(numGenerations+1),bestVal(numGenerations+1),'*r');
 hold off
 xlabel(ax(3),'x');
 ylabel(ax(3),'Fitnessfunktion(x)');
 axis([1,2^numGenes,0,1.5]);
 axis 'auto y';
-legende3 = legend('Fitnessfunktion','bester Wert der letzten Generation');
+legende3 = legend('Fitnessfunktion','bester jemals gefundener Wert','bester Wert der letzten Generation');
 set(legende3,'Location', 'southeast');
 
 

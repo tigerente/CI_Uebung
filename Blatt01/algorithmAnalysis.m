@@ -41,7 +41,7 @@ for i=1:numGenerations
     population = doCrossover(population,fitness,populationSize,flagWindowing);
     
     % Population Mutieren
-    mutatePopulation(population,flipProbability);
+    population = mutatePopulation(population,flipProbability);
     
     % Elite zurueck in Population fuegen, wenn gewuenscht
     if flagElite == true
