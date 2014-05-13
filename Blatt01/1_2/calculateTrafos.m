@@ -28,7 +28,7 @@ trafoCells{6,1} = fliplr(trafoCells{1,1});
 trafoCells{7,1} = flipud(trafoCells{2,1});
 
 % Rotation um 180 Grad + Spiegelung an y-Achse
-trafoCells{8,1} = fliplr(trafoCells{2,1})
+trafoCells{8,1} = fliplr(trafoCells{2,1});
 
 
 end
