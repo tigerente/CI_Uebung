@@ -1,0 +1,7 @@
+function [ representant, backTrans ] = getRep( situation )
+% GETREP Summary of this function goes here
+%   Detailed explanation goes here
+
+
+end
+
