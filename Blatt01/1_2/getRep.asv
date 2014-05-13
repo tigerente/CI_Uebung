@@ -1,8 +1,0 @@
-function [ representative, backTrans ] = getRep( situation )
-% Gibt zu einer gegebenen gueltigen Spielsituation den Repraesentanten der
-% zugehoerigen Aequivalenzklasse, sowie die entsprechende
-% Ruecktransformation als function handle zurueck.
-
-
-end
-

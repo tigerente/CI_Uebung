@@ -1,32 +1,57 @@
-function [ output_args ] = GenerateSituations( input_args )
-% Erzeugt iterativ alle gueltigen Spielsituationen und fasst sie zu
-% Aequivalenzklassen zusammen, zu denen jeweils ein Repraesentant
-% hinterlegt ist.
+function [ situations, representatives, transformations ] = generateSituations
+% Erzeugt iterativ alle gueltigen Spielsituationen und ordnet sie jeweils
+% einer Aquivalenzklasse zu. Zurueckgegeben werden drei Cell Arrays: Alle
+% gueltigen Situationen, die dazugehoerigen Repraesentanten und die
+% dazugehoerigen Transformationsnummern (Codierung: siehe calculateTrafos).
+% Hinweis: Das Repraesentanten-Array enthaelt Duplikate.
 
-
-S = zeros(3,3);
-gueltige = cell(6046,1);
-reps = cell(765,1);
+% Initialisierungen:
+S = zeros(3,3); % S = Spielsituation
+situations = cell(6046,1); % gueltige Spielsituationen
+representatives = cell(6046,1); % zugehoerige Repraesentanten
+transformations = zeros(6046,1); % zugehoerige Transformationsnummern
+s = 0; % Index fuer Spielsituationen/Repraesentanten/Transformationsnummern
+reps = cell(850,1); % Repraesentanten der Aequivalenzklassen
+u = 0; % Index fuer Repraesentanten
 
 % Gehe alle hypothetisch moeglichen Belegungen durch:
-g = 0;
 for i = 1:3^9
     c = i;
-    einsen = 0;
-    zweien = 0;
-    for j = 1:9
+    einsen = 0; % Anzahl der Symbole von Spieler 1
+    zweien = 0; % Anzahl der Symbole von Spieler 2
+    for j = 1:9 % Gehe alle Felder durch
         S(j)= mod(c,3);
         if mod(c,3) == 1, einsen = einsen + 1; end
         if mod(c,3) == 2, zweien = zweien + 1; end
         c = floor(c/3);
     end
-    if (einsen >= zweien && (einsen-zweien) < 2)
-        g=g+1;
-        gueltige{g}=S;
-        trafos = calculateTrafos(S);
-        
-    end
     
+    % Pruefe Spielsituation auf Gueltigkeit
+    if (einsen >= zweien && (einsen-zweien) < 2)
+        s=s+1;
+        situations{s}=S;
+        trafos = calculateTrafos(S); % Erzeuge Transformationen
+        found = false;
+        for r = 1:numel(reps) % Gehe alle Repraesentanten durch
+            if size(reps{r})>0
+                for t = 1:numel(trafos) % Gehe Transformationen durch
+                    if reps{r} == trafos{t} % Repraesentant gefunden
+                        found = true;
+                        representatives{s}=reps{r};
+                        transformations(s)=t;
+                    end
+                end
+            end
+        end
+        % Falls noch kein Repraesentant der Aequivalenzklasse vorhanden,
+        % fuege aktuelle Spielsituation als Repraesentant hinzu.
+        if found == false
+            u=u+1;
+            reps{u} = S;
+            representatives{s} = S;
+            transformations(s)=1;
+        end
+    end
 end
 
 end

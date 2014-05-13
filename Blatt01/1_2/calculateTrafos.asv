@@ -1,31 +1,34 @@
 function trafoCells = calculateTrafos(boardSituation)
 %CALCULATETRAFOS
-% berechnet zu einer SpielfeldSituation alle moeglichen
+% Berechnet zu einer Spielfeldsituation alle aequivalenten
 % Drehungen/Spiegelungen und legt sie in ein cellArray ab, das
-% zurueckgegeben wird
+% zurueckgegeben wird.
 
 % Transformationen:
 
+% keine Rotation
+trafoCells{1,1} = boardSituation;
+
 % Rotation um 90 Grad
-trafoMat{1,1} = rot90(boardSituation,1);
+trafoCells{2,1} = rot90(boardSituation,1);
 
 % Rotation um 180 Grad
-trafoMat{2,1} = rot90(boardSituation,2);
+trafoCells{3,1} = rot90(boardSituation,2);
 
 % Rotation um 270 Grad
-trafoMat{3,1} = rot90(boardSituation,3);
+trafoCells{4,1} = rot90(boardSituation,3);
 
 % Rotation um 90 Grad + Spiegelung an x-Achse
-trafoMat{4,1} = flipud(trafoMat{1,1});
+trafoCells{5,1} = flipud(trafoCells{1,1});
 
 % Rotation um 90 Grad + Spiegelung an y-Achse
-trafoMat{5,1} = fliplr(trafoMat{1,1});
+trafoCells{6,1} = fliplr(trafoCells{1,1});
 
 % Rotation um 180 Grad + Spiegelung an x-Achse
-trafoMat{6,1} = flipud(trafoMat{2,1});
+trafoCells{7,1} = flipud(trafoCells{2,1});
 
 % Rotation um 180 Grad + Spiegelung an y-Achse
-trafoMat{7,1} = fliplr(trafoMat{2,1})
+trafoCells{8,1} = fliplr(trafoCells{2,1});
 
 
 end
