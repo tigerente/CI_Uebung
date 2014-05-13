@@ -40,13 +40,10 @@ switch numDraw
         rightBorder = 1222;
 end
 
-% Genom in den oben definierten Grenzen auswerten und eins addieren, 
-% da Ergebnis nur aus [1,anzahlFreieFelder] sein darf, 
-% aber die Binaerzahl auch eine 0 sein kann  
-nextFreeFieldToDraw = bin2dec(char('0'+playerGenome(leftBorder:rightBorder))) + 1;
+% Genom in den oben definierten Grenzen auswerten     
+nextFreeFieldToDraw = bin2dec(char('0'+playerGenome(leftBorder:rightBorder)));
 
 % Overflow abfangen
-% Wenn codierte Zahl groesser als benoetigt, dann nehme den modulo davon
 if nextFreeFieldToDraw > rules_freeFields(3,numDraw)
     nextFreeFieldToDraw = mod(nextFreeFieldToDraw, rules_freeFields(3,numDraw));
 end
