@@ -1,0 +1,23 @@
+Funktionen fuer ES:
+
+
+function population = createPopulation(numIndivids, numGenes, minVals, maxVals)
+
+	- jede Zeile ein Genom eines Individuums
+	- Spalten = Gene
+
+
+function fitnesVector = evalFitness(population, fitFuncHandle)
+
+	- gibt Fitnessvektor zurueck, gleiche Sortierung wie Population
+
+function chosenIndividMatrix = chooseMy(population, fitnessVec, numMy)
+
+	- erstellt "Unterpopulation" der my besten Individuen nach Fitness
+
+function newPopulation = reproduce(chosenIndividMatrix, flagGlobalRekombination, flagDiscretcOrArithmetic, flagAlphaGlobal, flagLambdaPlusMy?)
+	
+
+function newPopulation = mutate(population, initalMutationRate, fitnessFuncHandle, adaptionParameterTau)
+	- wenn tau = 0 entspricht keiner Selbstadaption
+	- neues Individuum wird nur in newPopulation uebernommen, wenn seine Fitness besser nach Mutation!
