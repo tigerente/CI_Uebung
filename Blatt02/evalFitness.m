@@ -8,7 +8,7 @@ function fitnessVector = evalFitness(population, fHandle)
 
 
 % FitnessVektor initialisieren
-fitnessVector = zeros(size(population,1),1)
+fitnessVector = zeros(size(population,1),1);
 
 % Fitnesses berechnen und in FitnessVektor schreiben
 for i=1:size(population,1)
