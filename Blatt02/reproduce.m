@@ -1,4 +1,4 @@
-function newPopulation = reproduce(parentsPool, lambda, flagGlobalRekombination, flagDiscreteOrArithmetic, flagAlphaGlobal, flagLambdaPlusMy)
+function lambdaOffspring = reproduce(parentsPool, lambda, flagGlobalRekombination, flagDiscreteOrArithmetic, flagAlphaGlobal)
 %REPRODUCE 
 % Funktion zur Erzeugnung von 'lambda' Nachkommen aus den gewaehlten Eltern.
 % Es koennen alle Arten der Rekombination mittels Flag-Variablen
@@ -13,15 +13,13 @@ function newPopulation = reproduce(parentsPool, lambda, flagGlobalRekombination,
 %   flagAlphaGlobal:            true => arithmetischer Operator 'alpha' wird fuer
 %                               ganzes Genom gewaehlt
 %                               false => 'alpha' wird fuer jedes Gen einzeln gewaehlt
-%   flagLambdaPlusMy:           true => (Lambda + My)
-%                               false => (Lambda,My)
 
 % Anzahl Gene
 numGenes = size(parentsPool,2);
 
 % Zwischenspeicherung der 'lambda' Nachkommen, aus denen spaeter die 'my'
 % besten gewaehlt werden (bei (lambda,my)-Kriterium)
-lambdaMatrix = zeros(lambda,numGenes);
+lambdaOffspring = zeros(lambda,numGenes);
 
 % Rekombination fuer jedes Kind durchfuehren
 for i=1:lambda
@@ -55,9 +53,9 @@ for i=1:lambda
             
             % Auswaehlen, welches Elternteil fuer jeweiliges Gen
             if rand < 0.5
-                lambdaMatrix(i,g) = parentsPool(parentIdx1,g);
+                lambdaOffspring(i,g) = parentsPool(parentIdx1,g);
             else
-                lambdaMatrix(i,g) = parentsPool(parentIdx2,g);
+                lambdaOffspring(i,g) = parentsPool(parentIdx2,g);
             end
         
         % Wenn arithmetisch rekombiniert werden soll
@@ -69,12 +67,13 @@ for i=1:lambda
             end
             
             % arithmetisch rekombinieren
-            lambdaMatrix(i,g) = alpha*parentsPool(parentIdx1,g) + (1-alpha)*parentsPool(parentIdx2,g);
+            lambdaOffspring(i,g) = alpha*parentsPool(parentIdx1,g) + (1-alpha)*parentsPool(parentIdx2,g);
         end
         
     end
         
 end
+
 
 end
 

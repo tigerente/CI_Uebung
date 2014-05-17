@@ -11,13 +11,18 @@ function fitnesVector = evalFitness(population, fitFuncHandle)
 
 	- gibt Fitnessvektor zurueck, gleiche Sortierung wie Population
 
-function chosenIndividMatrix = chooseMy(population, fitnessVec, numMy)
+function chosenIndividMatrix = chooseMy(lambdaOffspring, parents, numMy, flagLambdaplusMy, fHandle)
 
 	- erstellt "Unterpopulation" der my besten Individuen nach Fitness
+    - kann auch mit Ueberlebenskriterium aufgerufen werden
 
-function newPopulation = reproduce(chosenIndividMatrix, flagGlobalRekombination, flagDiscretcOrArithmetic, flagAlphaGlobal, flagLambdaPlusMy?)
-	
+function lambdaOffspring = reproduce(chosenIndividMatrix, flagGlobalRekombination, flagDiscretcOrArithmetic, flagAlphaGlobal)
+
+    => DIESE FUNKTION DARF NUR DIE 'LAMBDA' NACHKOMMEN ERZEUGEN. 
+       FUER ERZEUGUNG NEUER POPULATION DURCH FUNKTION chooseMy, DIE NACH UEBERLEBENSKRITERIUM UNTERSCHEIDET UND
+       DIE ELTERN UEBERGEBEN BEKOMMEN MUSS	
 
 function newPopulation = mutate(population, initalMutationRate, fitnessFuncHandle, adaptionParameterTau)
 	- wenn tau = 0 entspricht keiner Selbstadaption
 	- neues Individuum wird nur in newPopulation uebernommen, wenn seine Fitness besser nach Mutation!
+
