@@ -1,6 +1,6 @@
 function newPopulation = reproduce(parentsPool, lambda, flagGlobalRekombination, flagDiscreteOrArithmetic, flagAlphaGlobal, flagLambdaPlusMy)
 %REPRODUCE 
-% Funktion zur Erzeugnung einer Kindergeneration aus den gewaehlten Eltern.
+% Funktion zur Erzeugnung von 'lambda' Nachkommen aus den gewaehlten Eltern.
 % Es koennen alle Arten der Rekombination mittels Flag-Variablen
 % ausgewaehlt werden
 % Parameter:
