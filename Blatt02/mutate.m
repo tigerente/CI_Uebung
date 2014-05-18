@@ -7,6 +7,11 @@ function mutatedPopulation = mutate(population, fitnessFuncHandle, tau)
 % Genes skaliert wurde.
 % Eine Mutation wird zurueck genommen, wenn die
 % Fitness nicht verbessert wurde. 
+% Parameter:
+%   population:         Population, die mutiert werden soll
+%   fitnessFuncHandle:  Handle auf die Fitnessfunktion
+%   tau:                Wert fuer adaption der Mutationsraten
+%                       Wenn 'tau=0', keine Adaption, da exp(0) = 1
 
 % 'mutatedPopulation' initialisieren
 mutatedPopulation = zeros(size(population,1),size(population,2));
