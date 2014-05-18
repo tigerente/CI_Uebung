@@ -1,7 +1,7 @@
 function mutatedPopulation = mutate(population, fitnessFuncHandle, tau)
 %MUTATE 
 % Mutiert eine Population. Zunaechst werden die Mutationsraten mutiert und
-% anschließend die Gene mit den neuen Mutationsraten.
+% anschliessend die Gene mit den neuen Mutationsraten.
 % Hierfuer wird auf jedes Gen eine normalverteilte
 % Zufallszahl addiert, die vorher mit der Mutationsrate des jeweiligen
 % Genes skaliert wurde.
