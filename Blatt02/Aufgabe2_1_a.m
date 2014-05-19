@@ -95,7 +95,7 @@ plot(xValuesAlgo,bestArgument,'r');
 plot(xValuesAlgo,2000,':b');
 hold off
 xlabel(ax(2),'Generationen');
-ylabel(ax(2),'Argument für Fitnessfunktion');
+ylabel(ax(2),'Argument fuer Fitnessfunktion');
 axis([1,numGenerations,0,maxVal]);
 legende2 = legend('Argument des besten Individuums','Optimum');
 set(legende2,'Location', 'southeast');
