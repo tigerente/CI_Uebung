@@ -19,7 +19,7 @@ if flagLambdaPlusMy == true
     
     % Nachkommen und Eltern vereinen
     allIndivids(1:size(lambdaOffspring,1),:) = lambdaOffspring(:,:);
-    allIndivids(size(lambdaOffspring,1)+1:end,:) = parentsPool(:,:);
+    allIndivids(size(lambdaOffspring,1)+1:size(parentsPool,1)+size(lambdaOffspring,1),:) = parentsPool(:,:);
 
 % Wenn (lambda,my)
 elseif flagLambdaPlusMy == false

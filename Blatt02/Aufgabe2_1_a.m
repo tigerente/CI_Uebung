@@ -11,10 +11,9 @@ minVal = [0];                       % Untere Schranke des Intervalls der Werte d
 maxVal = [4095];                    % Obere Schranke des Intervalls der Werte der Gene
 fitFuncHandle = @fitnessFunction;   % Handle auf Fitnessfunktion
 flagSurvival = false;               % true => (lambda + my), false => (lambda,my)
-flagDiscreteRek = false;            % Statt diskreter Rekombination, arithmetische
-flagAlpha = true;                   % Ein 'alpha'-Wert fuer alle Gene
+flagDiscreteRek = false;            % false => arithmetische Rekombination 
+flagAlpha = true;                   % true => Ein 'alpha'-Wert fuer alle Gene
           
-
 
 % Erzeugen der Startpopulation
 population = generatePopulation(my, numGenes,minVal,maxVal,mutationRate);
