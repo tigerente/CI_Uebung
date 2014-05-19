@@ -30,7 +30,7 @@ for i=1:size(population,1)
         tmpPop(i,m+numGenes/2) = population(i,m+numGenes/2)*exp(tau*randn);
         
         % Dann Gen, zu dem die Mutationsrate gehoert, mutieren
-        tmpPop(i,m) = population(i,m) + tmpPop(i,m+numGenes/2)*randn;
+        tmpPop(i,m) = population(i,m) + (tmpPop(i,m+numGenes/2)*randn);
     end 
     
     % Fitness des mutierten Genoms mit unmutierter Fassung anhand Fitness

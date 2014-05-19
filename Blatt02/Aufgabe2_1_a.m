@@ -7,8 +7,8 @@ numGenes = 1;                       % Anzahl Gene
 numGenerations = 100;               % Anzahl Generationen
 mutationRate = 5;                   % initiale Mutationsrate aller Gene
 tau = 0;                            % Parameter fuer Selbstadaption wenn 0, keine Adaption
-minVal = [0];                         % Untere Schranke des Intervalls der Werte der Gene
-maxVal = [4095];                      % Obere Schranke des Intervalls der Werte der Gene
+minVal = [0];                       % Untere Schranke des Intervalls der Werte der Gene
+maxVal = [4095];                    % Obere Schranke des Intervalls der Werte der Gene
 fitFuncHandle = @fitnessFunction;   % Handle auf Fitnessfunktion
 flagSurvival = false;               % true => (lambda + my), false => (lambda,my)
 flagDiscreteRek = false;            % Statt diskreter Rekombination, arithmetische
@@ -80,7 +80,7 @@ hold on
 plot(xValuesAlgo,bestVal,'g');
 plot(xValuesAlgo,meanVal,'b');
 plot(xValuesAlgo,worstVal,'r');
-plot(xValuesAlgo,fHandle(2000),':k');
+plot(xValuesAlgo,fitFuncHandle(2000),':k');
 hold off
 xlabel(ax(1),'Generationen');
 ylabel(ax(1),'Wert der Fitnessfunktion');
@@ -105,7 +105,7 @@ set(legende2,'Location', 'southeast');
 % (weil es so schoen ist, das auch noch mal zu sehen)
 ax(3) = subplot(3,1,3);
 hold on
-plot(xValuesShow,fHandle(xValuesShow),'k');
+plot(xValuesShow,fitFuncHandle(xValuesShow),'k');
 plot(bestIndividuum(1),bestIndividuum(2),'*g');
 plot(bestArgument(numGenerations+1),bestVal(numGenerations+1),'*r');
 hold off
