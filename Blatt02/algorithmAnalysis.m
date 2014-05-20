@@ -1,6 +1,6 @@
-function resultingFitness = algorithmAnalysis(my,lambda,tau,numGenes,minVals,maxVals,mutationRate,numGenerations,flagSurvival,flagGlobalRek,flagDiscreteRek,flagAlpha,fitFuncHandle)
+function resultingFitness = algorithmAnalysis(my,lambda,tau,numGenes,minVals,maxVals,initMutationRate,numGenerations,flagSurvival,flagGlobalRek,flagDiscreteRek,flagAlpha,fitFuncHandle)
 %ALGORITHMANALYSIS 
-% Diese Funktion fuehrt den genetischen Algorithmus unter
+% Diese Funktion fuehrt die evolutionaere Strategie unter
 % verschiedensten Bedingungen aus. Es koennen Parameter und Verfahren fuer
 % den Algorithmus gewaehlt werden
 % Parameter: 
@@ -11,12 +11,13 @@ function resultingFitness = algorithmAnalysis(my,lambda,tau,numGenes,minVals,max
 %   numGenes:           Anzahl der Gene eines Individuums
 %   minVals:            Array mit unteren Grenzen jeden Genes
 %   maxVals:            Array mit oberen Grenzen jeden Genes
-%   mutatuionRate:      Mutationsrate
+%   initMutationRate:   Initiale Mutationsrate aller Gene
 %   numGenerations:     Anzahl der Generationen
-%   flagSurvival:       true => (lambda + my), false => (lambda,my)
+%   flagSurvival:       true => (lambda + my), false => (lambda , my)
 %   flagGlobalRek:      true => Jedes Gen von zwei unterschiedliche Eltern,
 %                       false => Fuer ganzes Genom nur zwei Eltern
-%   flagDiscreteRek:    true => diskrete Rekombination, false => arithmetische Rekombination 
+%   flagDiscreteRek:    true => diskrete Rekombination,
+%                       false => arithmetische Rekombination 
 %   flagAlpha:          true => Ein 'alpha'-Wert fuer alle Gene, 
 %                       false => 'alpha' fuer jedes Gen unterschiedlich
 %   fitFuncHandle:      FunctionHandle der Fitnessfunktion
@@ -24,7 +25,7 @@ function resultingFitness = algorithmAnalysis(my,lambda,tau,numGenes,minVals,max
 
 
 % Startpopulartion bilden
-population = generatePopulation(my,numGenes,minVals,maxVals,mutationRate);
+population = generatePopulation(my,numGenes,minVals,maxVals,initMutationRate);
 
 % Generationen iterieren
 for i=1:numGenerations 
