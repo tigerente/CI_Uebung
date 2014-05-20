@@ -14,13 +14,13 @@ flagSurvival = false;               % true => (lambda + my), false => (lambda,my
 flagDiscreteRek = false;            % false => arithmetische Rekombination 
 flagAlpha = true;                   % true => Ein 'alpha'-Wert fuer alle Gene
 
-fitnessLimit = 1.28;                % Abbruchbedingung fuer Fitness
+fitnessLimit = 1.298;                % Abbruchbedingung fuer Fitness
                                     % Wenn ueberschritten, Algorithmus am
                                     % Ende
       
-fitnessChangeLimit = 0;           % Abbruchbedingung fuer Aenderung der Fitness
+fitnessChangeLimit = 0.01;           % Abbruchbedingung fuer Aenderung der Fitness
                                     % Wert berechnet sich aus
-                                    % |besteFitnessGeneration(n-1)-besteFitnessGeneration(n)|
+                                    % |(besteFitnessGeneration(n)-besteFitnessGeneration(n-1)/besteFitnessGeneration(n-1))|
                                     
           
 
@@ -32,6 +32,8 @@ fitness = evalFitness(population,fitFuncHandle);
 
 % Vektor fuer Fitness der Generation vorher
 fitnessOld = zeros(size(population,1),1);
+relChange = abs((max(fitness)-max(fitnessOld))/max(fitnessOld));
+
 
 % Index der Generation
 generationIndex = 1;
@@ -57,7 +59,7 @@ bestIndividuum = [bestArgument(1),maxValue];
 % Generationslimit erreicht oder Aenderung der Fitness unter dem Limit
 while (max(fitness) < fitnessLimit...
         && generationIndex <= numGenerations...
-        && abs(max(fitness)- max(fitnessOld)) > fitnessChangeLimit)
+        && relChange > fitnessChangeLimit)
     
     % Fitness auswerten bevor neue Generation erstellt wird
     % fuer Abbruchbedingung bezueglich der Aenderung der Fitness
@@ -89,6 +91,10 @@ while (max(fitness) < fitnessLimit...
     
     % Index hochzaehlen
     generationIndex = generationIndex+1;
+    
+    % relative Fitnessaenderung
+    relChange = abs((max(fitness)-max(fitnessOld))/max(fitnessOld));
+    
     
 end
 

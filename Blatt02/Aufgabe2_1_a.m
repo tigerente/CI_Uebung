@@ -110,7 +110,7 @@ plot(bestArgument(numGenerations+1),bestVal(numGenerations+1),'*r');
 hold off
 xlabel(ax(3),'x');
 ylabel(ax(3),'Fitnessfunktion(x)');
-axis([1,maxVal,0,1.5]);
+axis([0,maxVal,0,1.5]);
 axis 'auto y';
 legende3 = legend('Fitnessfunktion','bester jemals gefundener Wert','bester Wert der letzten Generation');
 set(legende3,'Location', 'southeast');
