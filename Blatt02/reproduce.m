@@ -7,7 +7,10 @@ function lambdaOffspring = reproduce(parentsPool, lambda, flagGlobalRekombinatio
 %   parentsPool:                ElternPool mit ausgewaehlten Elterngenomen
 %   lambda:                     Anzahl der zu generierenden Kinder
 %   flagGlobalRekombination:    Soll globale Rekombination verwendet
-%                               werden? (fuer jedes Gen zwei zufaellige Eltern)
+%                               werden?
+%                               true => fuer jedes Gen zwei zufaellige Eltern
+%                               false => zwei zufaellige Eltern fuer ganzes
+%                               Genom
 %   flagDiscreteOrArithmetic:   true => diskrete Rekombination
 %                               false => arithmetische Rekombination
 %   flagAlphaGlobal:            true => arithmetischer Operator 'alpha' wird fuer

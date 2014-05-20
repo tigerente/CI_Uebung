@@ -16,7 +16,7 @@ function chosenIndividMatrix = chooseMy(lambdaOffspring, parents, numMy, flagLam
 	- erstellt "Unterpopulation" der my besten Individuen nach Fitness
     - kann auch mit Ueberlebenskriterium aufgerufen werden
 
-function lambdaOffspring = reproduce(chosenIndividMatrix, flagGlobalRekombination, flagDiscretcOrArithmetic, flagAlphaGlobal)
+function lambdaOffspring = reproduce(ParentsPool, flagGlobalRekombination, flagDiscretcOrArithmetic, flagAlphaGlobal)
 
     => DIESE FUNKTION DARF NUR DIE 'LAMBDA' NACHKOMMEN ERZEUGEN. 
        FUER ERZEUGUNG NEUER POPULATION DURCH FUNKTION chooseMy, DIE NACH UEBERLEBENSKRITERIUM UNTERSCHEIDET UND
