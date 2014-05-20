@@ -18,8 +18,10 @@ function chosenMy = chooseMy(lambdaOffspring, parentsPool, numMy, flagLambdaPlus
 if flagLambdaPlusMy == true
     
     % Nachkommen und Eltern vereinen
-    allIndivids(1:size(lambdaOffspring,1),:) = lambdaOffspring(:,:);
-    allIndivids(size(lambdaOffspring,1)+1:size(parentsPool,1)+size(lambdaOffspring,1),:) = parentsPool(:,:);
+    lambda = size(lambdaOffspring,1);
+    my = size(parentsPool,1);
+    allIndivids(1:lambda,:) = lambdaOffspring(:,:);
+    allIndivids(lambda + 1 : lambda + my , :) = parentsPool(:,:);
 
 % Wenn (lambda,my)
 elseif flagLambdaPlusMy == false
@@ -42,10 +44,7 @@ fitnessVector(:,2) = 1:size(allIndivids,1);
 fitnessVector = sortrows(fitnessVector, -1);
 
 % Beste Individuen in neue Matrix schreiben
-chosenMy = zeros(numMy,size(allIndivids,2));
-for i=1:numMy
-    chosenMy(i,:) = allIndivids(fitnessVector(i,2),:);
-end
+chosenMy =  allIndivids(fitnessVector(1:numMy,2),:);
 
 end
 
