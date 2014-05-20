@@ -7,7 +7,7 @@ if(nargin < 3)
 	show = false;
 end
 if (nargin < 2)
-	n = 1000;
+	n = 100;
 end
 %parameters
 dt = 0.1;

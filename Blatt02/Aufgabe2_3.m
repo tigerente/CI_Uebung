@@ -1,10 +1,10 @@
 % Script zur Bearbeitung von Aufgabe 2.3
 
 % Parametersetup
-lambda = 75;                        % Lambda fuer Ueberlebenskriterium
-my = 50;                            % My fuer Ueberlebenskriterium = Anzahl der Individuen
+lambda = 100;                        % Lambda fuer Ueberlebenskriterium
+my = 80;                            % My fuer Ueberlebenskriterium = Anzahl der Individuen
 numGenes = 12;                      % Anzahl Gene
-numGenerations = 1000;              % Anzahl Generationen
+numGenerations = 1;              % Anzahl Generationen
 mutationRate = 100;                 % initiale Mutationsrate aller Gene
 tau = 1/sqrt(12);                   % Parameter fuer Selbstadaption wenn 0, keine Adaption
 minVal = -10000*ones(1,12);         % Untere Schranke des Intervalls der Werte der Gene

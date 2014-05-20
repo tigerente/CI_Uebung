@@ -4,9 +4,9 @@
 lambda = 15;                        % Lambda fuer Ueberlebenskriterium
 my = 10;                            % My fuer Ueberlebenskriterium = Anzahl der Individuen
 numGenes = 1;                       % Anzahl Gene
-numGenerations = 100;               % Anzahl Generationen
+numGenerations = 1;               % Anzahl Generationen
 mutationRate = 5;                   % initiale Mutationsrate aller Gene
-tau = 0;                            % Parameter fuer Selbstadaption wenn 0, keine Adaption
+tau = 1;                            % Parameter fuer Selbstadaption wenn 0, keine Adaption
 minVal = [0];                       % Untere Schranke des Intervalls der Werte der Gene
 maxVal = [4095];                    % Obere Schranke des Intervalls der Werte der Gene
 fitFuncHandle = @fitnessFunction;   % Handle auf Fitnessfunktion
@@ -83,7 +83,7 @@ plot(xValuesAlgo,fitFuncHandle(2000),':k');
 hold off
 xlabel(ax(1),'Generationen');
 ylabel(ax(1),'Wert der Fitnessfunktion');
-axis([1,numGenerations,0,1.5]);
+axis([0,numGenerations,0,1.5]);
 axis 'auto y';
 legende1 = legend('bester Fitnesswert','mittlerer Fitnesswert','schlechtester Fitnesswert','Maximum der Fitnessfunktion');
 set(legende1,'Location', 'southeast');
@@ -96,7 +96,7 @@ plot(xValuesAlgo,2000,':b');
 hold off
 xlabel(ax(2),'Generationen');
 ylabel(ax(2),'Argument fuer Fitnessfunktion');
-axis([1,numGenerations,0,maxVal]);
+axis([0,numGenerations,0,maxVal]);
 legende2 = legend('Argument des besten Individuums','Optimum');
 set(legende2,'Location', 'southeast');
 
