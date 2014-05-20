@@ -14,18 +14,19 @@ function mutatedPopulation = mutate(population, fitnessFuncHandle, tau)
 %                       Wenn 'tau=0', keine Adaption, da exp(0) = 1
 
 % 'mutatedPopulation' initialisieren
-mutatedPopulation = zeros(size(population,1),size(population,2));
+mutatedPopulation = zeros(size(population));
 
 % Zwischenspeicher fuer mutierte Population
-tmpPop = zeros(size(population,1),size(population,2));
+tmpPop = zeros(size(population));
 
-% Durch alle Genome gehen
+% Laenge des Gesamtgenoms, d.h. #{echte Gene} + #{Mutationsraten}
 numGenes = size(population,2);
 
+% Durch alle Individuen gehen
 for i=1:size(population,1)
-    % Durch alle Gene gehen
+    % Durch alle Gene bzw. Mutationsraten gehen (Hinweis: es gibt numGenes/2 Gene und
+    % numGenes/2 Mutationsraten)
     for m=1:numGenes/2
-               
         % Zuerst Mutationrate mutieren
         tmpPop(i,m+numGenes/2) = population(i,m+numGenes/2)*exp(tau*randn);
         
