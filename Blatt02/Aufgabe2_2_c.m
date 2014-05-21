@@ -22,7 +22,7 @@ fitnessChangeLimit = 0.01;          % Abbruchbedingung fuer Aenderung der Fitnes
                                     % Wert berechnet sich aus
                                     % |besteFitnessGeneration(n-1)-besteFitnessGeneration(n)|
                                     
-generationsAfterLimit = 50;         % Wenn keine ausreichende Aenderung erfolgt, 
+generationsAfterLimit = 20;         % Wenn keine ausreichende Aenderung erfolgt, 
                                     % werden nochmal so viele Generationen durchlaufen
                                     
           

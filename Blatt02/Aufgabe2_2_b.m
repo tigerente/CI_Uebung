@@ -14,11 +14,11 @@ flagSurvival = false;               % true => (lambda + my), false => (lambda,my
 flagDiscreteRek = false;            % false => arithmetische Rekombination 
 flagAlpha = true;                   % true => Ein 'alpha'-Wert fuer alle Gene
 
-fitnessLimit = 1.298;                % Abbruchbedingung fuer Fitness
+fitnessLimit = Inf;                % Abbruchbedingung fuer Fitness
                                     % Wenn ueberschritten, Algorithmus am
                                     % Ende
       
-fitnessChangeLimit = 0.01;           % Abbruchbedingung fuer Aenderung der Fitness
+fitnessChangeLimit = 0.001;           % Abbruchbedingung fuer Aenderung der Fitness
                                     % Wert berechnet sich aus
                                     % |(besteFitnessGeneration(n)-besteFitnessGeneration(n-1)/besteFitnessGeneration(n-1))|
                                     

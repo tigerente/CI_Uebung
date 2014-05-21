@@ -14,7 +14,7 @@ flagSurvival = false;               % true => (lambda + my), false => (lambda,my
 flagDiscreteRek = false;            % false => arithmetische Rekombination 
 flagAlpha = true;                   % true => Ein 'alpha'-Wert fuer alle Gene
 
-fitnessLimit = 1.28;                % Abbruchbedingung fuer Fitness
+fitnessLimit = 1.17;                % Abbruchbedingung fuer Fitness
                                     % Wenn ueberschritten, Algorithmus am
                                     % Ende
           
