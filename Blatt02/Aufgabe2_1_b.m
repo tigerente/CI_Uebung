@@ -2,11 +2,11 @@
 
 % Parametersetup
 %lambda = my+5;                        % Lambda fuer Ueberlebenskriterium
-myMin = 2;                          % My fuer Ueberlebenskriterium = Anzahl der Individuen
+myMin = 8;                          % My fuer Ueberlebenskriterium = Anzahl der Individuen
 myMax = 16;
 numGenes = 1;                       % Anzahl Gene
 numGenerations = 100;               % Anzahl Generationen
-minMutationRate = 1;                % Mutationsraten aller Gene
+minMutationRate = 20;                % Mutationsraten aller Gene
 maxMutationRate = 50;
 tau = 0;                            % Parameter fuer Selbstadaption wenn 0, keine Adaption
 minVal = [0];                       % Untere Schranke des Intervalls der Werte der Gene
@@ -61,6 +61,7 @@ for individs = myMin:myMax
         meanPerformance(individs,mutRate) = mean(meanIndividuals(individs,mutRate,:));
         worstPerformance(individs,mutRate) = mean(worstIndividuals(individs,mutRate,:));
     end
+    % Statusanzeige
     disp(individs);
 end
 

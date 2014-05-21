@@ -4,9 +4,9 @@
 lambda = 15;                        % Lambda fuer Ueberlebenskriterium
 my = 10;                            % My fuer Ueberlebenskriterium = Anzahl der Individuen
 numGenes = 1;                       % Anzahl Gene
-numGenerations = 1;               % Anzahl Generationen
+numGenerations = 100;               % Anzahl Generationen
 mutationRate = 5;                   % initiale Mutationsrate aller Gene
-tau = 1;                            % Parameter fuer Selbstadaption wenn 0, keine Adaption
+tau = 0;                            % Parameter fuer Selbstadaption wenn 0, keine Adaption
 minVal = [0];                       % Untere Schranke des Intervalls der Werte der Gene
 maxVal = [4095];                    % Obere Schranke des Intervalls der Werte der Gene
 fitFuncHandle = @fitnessFunction;   % Handle auf Fitnessfunktion
