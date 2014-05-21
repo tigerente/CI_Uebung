@@ -61,6 +61,7 @@ for individs = myMin:myMax
         meanPerformance(individs,mutRate) = mean(meanIndividuals(individs,mutRate,:));
         worstPerformance(individs,mutRate) = mean(worstIndividuals(individs,mutRate,:));
     end
+    disp(individs);
 end
 
 
