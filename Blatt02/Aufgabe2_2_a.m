@@ -94,7 +94,7 @@ plot(xValuesAlgo,fitFuncHandle(2000),':k');
 hold off
 xlabel(ax(1),'Generationen');
 ylabel(ax(1),'Wert der Fitnessfunktion');
-axis([1,generationIndex,0,1.5]);
+axis([0,generationIndex,0,1.5]);
 axis 'auto y';
 legende1 = legend('bester Fitnesswert','mittlerer Fitnesswert','schlechtester Fitnesswert','Maximum der Fitnessfunktion');
 set(legende1,'Location', 'southeast');
@@ -107,7 +107,7 @@ plot(xValuesAlgo,2000,':b');
 hold off
 xlabel(ax(2),'Generationen');
 ylabel(ax(2),'Argument für Fitnessfunktion');
-axis([1,generationIndex,0,maxVal]);
+axis([0,generationIndex,0,maxVal]);
 legende2 = legend('Argument des besten Individuums','Optimum');
 set(legende2,'Location', 'southeast');
 
@@ -121,7 +121,7 @@ plot(bestArgument(generationIndex),bestVal(generationIndex),'*r');
 hold off
 xlabel(ax(3),'x');
 ylabel(ax(3),'Fitnessfunktion(x)');
-axis([1,maxVal,0,1.5]);
+axis([0,maxVal,0,1.5]);
 axis 'auto y';
 legende3 = legend('Fitnessfunktion','bester jemals gefundener Wert','bester Wert der letzten Generation');
 set(legende3,'Location', 'southeast');
