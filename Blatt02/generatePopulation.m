@@ -19,7 +19,7 @@ for i=1:numIndivids
 end
 
 % initiale Mutationsrate hinter die Gene schreiben
-population(:,numGenes:end) = initMutationRate;
+population(:,numGenes+1:end) = initMutationRate;
 
 end
 

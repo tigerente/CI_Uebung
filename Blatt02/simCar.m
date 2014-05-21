@@ -7,7 +7,7 @@ if(nargin < 3)
 	show = false;
 end
 if (nargin < 2)
-	n = 1000;
+	n = 100;
 end
 %parameters
 dt = 0.1;
@@ -66,7 +66,7 @@ end
 		accParam = param(:,7:12);
 		action(:,2) = (angleParam.*in)*ones(6,1);
 		action(:,1) = (accParam.*in)*ones(6,1);
-		disp([num2str(r1) ' ' num2str(r2)])
+		%disp([num2str(r1) ' ' num2str(r2)]);
 	end
 	function simplePhysics()
 		phi = phi + 0.28*action(:,2);
