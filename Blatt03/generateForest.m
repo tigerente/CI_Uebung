@@ -14,7 +14,7 @@ function forest = generateForest(numTrees, maxDepth, descProba, nrOp, nrTerm)
 %   Den Forest als Cell-Array
 
 % Wald erzeugen
-forest = {13,1};
+forest = {numTrees,1};
 
 % Forest mit Baeumen fuellen
 % (Evtl spaeter noch vektorisieren, wenn moeglich?!?!)
