@@ -1,8 +1,8 @@
-function [parent1 parent2] = pickParents(parentsPool, fitness)
+function [parent1 parent2] = treePickParents(parentsPool, fitness)
 %PICKPARENTS(parentsPool, fitness)
 % Waehlt 2 Eltern fitnessproportional aus einem ElternPool aus
 % PARAMETER:
-%   parentsPool:    Pool aus dem die Eltern gewaehlt werden sollen
+%   parentsPool:    Cell-Array aus dem die Eltern gewaehlt werden sollen
 %   fitness:        FitnessVektor der Eltern
 %
 % RETURN:
@@ -12,7 +12,7 @@ function [parent1 parent2] = pickParents(parentsPool, fitness)
 fitness = fitness/sum(fitness);
 
 % Zeile mit Identitaeten der Eltern an FitnessVektor haengen
-fitness(2,:) = 1:numel(fitness);
+fitness(2,:) = 1:size(fitness,2);
 
 % Vektor nach relativer Fitness sortieren
 % (transponieren => sortieren => transponieren, da Baeume in Zeile
@@ -20,12 +20,12 @@ fitness(2,:) = 1:numel(fitness);
 fitness = sortrows(fitness.',-1).';
 
 % Ersten Elternteil auswaehlen
-idx = find(fitness(1,:)>=rand);
-parent1 = parentsPool(fitness(2,idx(1)));
+idx = find(cumsum(fitness(1,:))>=rand);
+parent1 = parentsPool{fitness(2,idx(1))};
 
 % Zweiten Elternteil auswaehlen
-idx = find(fitness(1,:)>=rand);
-parent2 = parentsPool(fitness(2,idx(1)));
+idx = find(cumsum(fitness(1,:))>=rand);
+parent2 = parentsPool{fitness(2,idx(1))};
 
 end
 
