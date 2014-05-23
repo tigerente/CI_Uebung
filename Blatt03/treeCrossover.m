@@ -26,9 +26,6 @@ randomNode2 = randi([2,size(parent2,1)]);
 parentNode1 = parent1(randomNode1,2);
 parentNode2 = parent2(randomNode2,2);
 
-randomSubTree1 = treeGetSub(parent1, randomNode1);
-randomSubTree2 = treeGetSub(parent2, randomNode2);
-
 while (parentNode1 == 0 || parentNode2 == 0)
     
     randomNode1 = randi([2,size(parent1,1)]);
@@ -37,10 +34,11 @@ while (parentNode1 == 0 || parentNode2 == 0)
     parentNode1 = parent1(randomNode1,2);
     parentNode2 = parent2(randomNode2,2);
 
-    randomSubTree1 = treeGetSub(parent1, randomNode1);
-    randomSubTree2 = treeGetSub(parent2, randomNode2);
-
 end
+
+% Unterbaum des gewaehlten Knotens bestimmen
+randomSubTree1 = treeGetSub(parent1, randomNode1);
+randomSubTree2 = treeGetSub(parent2, randomNode2);
 
 % Austausch der gewaehlten subTrees
 % Baeume an gewaehltem Knoten entfernen
