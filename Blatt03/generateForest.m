@@ -1,5 +1,5 @@
 function forest = generateForest(numTrees, maxDepth, descProba, nrOp, nrTerm)
-%GENERATEFOREST(numTrees, macDepth, descProba, nrOp, nrTerm)
+%GENERATEFOREST(numTrees, maxDepth, descProba, nrOp, nrTerm)
 % Erzeugt eine Population an Baeumen (Forest) mit Hilfe der Funktion
 % 'treeRandGenDeep'
 % PARAMETER: 
