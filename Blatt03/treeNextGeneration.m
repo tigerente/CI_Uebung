@@ -1,4 +1,4 @@
-function newForest = treeNextGeneration(forest,fitness,mutateCrossoverProb,mutateProb,maxMutateDepth,descProb,nrOp,nrTerm)
+function newForest = treeNextGeneration(forest,fitness,mutateCrossoverProb,mutateProb,maxMutateDepth,descProbab,nrOp,nrTerm)
 %TREENEXTGENERATION(forest, fitness, mutateCrossoverProb, mutateProb, maxMutateDepth, descProbab, nrOp, nrTerm)
 % Erstellt aus einem gegebenen Wald einen neuen Wald
 % Individuen werden entweder durch Mutation oder Rekombination erzeugt.
@@ -11,7 +11,7 @@ function newForest = treeNextGeneration(forest,fitness,mutateCrossoverProb,mutat
 %                           Gegenwahrscheinlichkeit fuer Rekombination. 
 %   mutateProb:             Wahrscheinlichkeit fuer Mutation eines Knotens
 %   maxMutateDepth:         Maximale Tiefe von mutierten Baeumen
-%   descProb:               Abstiegswahrscheinlichkeit bei Mutation
+%   descProbab:             Abstiegswahrscheinlichkeit bei Mutation
 %   nrOp:                   Anzahl der moeglichen Operatoren
 %   nrTerm:                 Anzahl der moeglichen Terminale
 %
@@ -32,17 +32,26 @@ while freeIdx <= size(newForest,2)
     if (rand > mutateCrossoverProb) && (size(newForest,2) - freeIdx - 1 >= 2)
     
         % Eltern fitnessproportional waehlen
-        
+        [parent1 parent2] = pickParents(forest,fitness);
     
-    
+        % Rekombination der beiden Elternteile zu zwei neuen Kindern
+        [newForest{freeIdx} newForest{freeIdx+1}] = treeCrossover(parent1,parent2);
+
         % freeIdx um 2 hochzaehlen
         freeIdx = freeIdx +2;
         
     % Ansonsten Mutation
     else
-    
-    
-    
+        
+        % Einen Baum des ElternWaldes fitnessproportional waehlen, 
+        % der mutiert werden soll
+        mutantParent = pickParents(forest, fitness);
+        
+        % Baum mutieren und in neuen Wald einfuegen
+        newForest{freeIdx} = treeMutate(mutantParent,mutateProb,maxMutateDepth,descProbab,nrOp,nrTerm);
+        
+        % freeIdx um 1 hochzaehlen
+        freeIdx = freeIdx + 1;
     end
 end
 
