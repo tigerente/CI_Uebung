@@ -19,6 +19,34 @@ function newForest = treeNextGeneration(forest,fitness,mutateCrossoverProb,mutat
 %   Einen neuen Wald
 
 
+% neuen Wald anlegen 
+newForest = cell(size(forest));
+
+% Variable fuer naechsten freien Index im Wald
+freeIdx = 1;
+
+% Neuen Wald fuellen
+while freeIdx <= size(newForest,2)
+    
+    % Rekombination nur, wenn noch mindestens 2 freie Plaetze in 'newForest'
+    if (rand > mutateCrossoverProb) && (size(newForest,2) - freeIdx - 1 >= 2)
+    
+        % Eltern fitnessproportional waehlen
+        
+    
+    
+        % freeIdx um 2 hochzaehlen
+        freeIdx = freeIdx +2;
+        
+    % Ansonsten Mutation
+    else
+    
+    
+    
+    end
+end
+
+
 
 
 
