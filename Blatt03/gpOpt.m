@@ -14,6 +14,9 @@ function [bestInd] = gpOpt(nrTrees,nrGen,fitnessFkt,nrOp,nrTerm,mutateCrossoverP
 %  mutateProb:                 Mutationswahrscheinlichkeit jedes Knoten bzw. Blattes bei der Mutation.
 %  maxMutateDepth:             Maximale Tiefe des zufaelligen Teilbaumes bei der Mutation.
 %  descProbab:                 Abstiegswahrscheinlichkeit des zufaelligen Teilbaumes bei der Mutation.
+%
+% RETURN:
+% bestes jemals gefundenes Individuum
 
 
 
