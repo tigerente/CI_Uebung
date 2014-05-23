@@ -43,8 +43,7 @@ while freeIdx <= size(newForest,2)
     % Ansonsten Mutation
     else
         
-        % Einen Baum des ElternWaldes fitnessproportional waehlen, 
-        % der mutiert werden soll
+        % Einen Baum, der mutiert werden soll fitnessproportional auswaehlen 
         mutantParent = pickParents(forest, fitness);
         
         % Baum mutieren und in neuen Wald einfuegen
