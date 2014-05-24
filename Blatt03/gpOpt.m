@@ -1,4 +1,4 @@
-function [bestInd] = gpOpt(nrTrees,nrGen,fitnessFkt,nrOp,nrTerm,mutateCrossoverProb,maxStartDepth,mutateProb,maxMutateDepth,descProbab)
+function [bestIndEver, bestIndis, meanIndis, worstIndis] = gpOpt(nrTrees,nrGen,fitnessFkt,nrOp,nrTerm,mutateCrossoverProb,maxStartDepth,mutateProb,maxMutateDepth,descProbab)
 %GPOPT(nrTrees, nrGen, fitnessFkt, nrOp, nrTerm, mutateCrossoverProb, maxStartDepth, mutateProb, maxMutateDepth, descprobab)
 % Optimierungsverfahren auf Basis der genetischen Programmierung
 % Es wird das Konzept der "Hall of Fame" genutzt
@@ -16,7 +16,12 @@ function [bestInd] = gpOpt(nrTrees,nrGen,fitnessFkt,nrOp,nrTerm,mutateCrossoverP
 %  descProbab:                 Abstiegswahrscheinlichkeit des zufaelligen Teilbaumes bei der Mutation.
 %
 % RETURN:
-% bestes jemals gefundenes Individuum
+%   bestIndEver:                bestes jemals gefundenes Individuum
+%   bestIndis:                  Fitness des besten Individuums jeder
+%                               Generation
+%   meanIndis:                  Durchschnittliche Fitness jeder Generation
+%   worstIndis:                 Fitness des schlechtesten Individuums jeder
+%                               Generation
 
 
 
@@ -28,6 +33,11 @@ forest = generateForest(nrTrees,maxStartDepth,desProbab,nrOp,nrTerm);
 % in hallOfFame{2} steht seine Fitness
 hallOfFame = cell(1,2);
 hallOfFame{2} = -1;
+
+% Speicher fuer Performancegroessen der Generationen
+bestIndis = zeros(nrGen,1);
+meanIndis = zeros(nrGen,1);
+worstIndis = zeros(nrGen,1);
 
 % Generationen durchlaufen
 for i=1:nrGen
@@ -42,13 +52,18 @@ for i=1:nrGen
        hallOfFame{1} = forest{index}; 
     end
     
+    % Performancegroessen abspeichern
+    bestIndis(i) = maxVal;
+    meanIndis(i) = mean(fitness);
+    worstIndis(i) = min(fitness);
+    
     % naechste Generation erzeugen
     forest = treeNextGeneration(forest,fitness,mutateCrossoverProb,mutateProb,maxMutateDepth,descProbab,nrOp,nrTerm);
     
 end
 
 % Bestes jemals gefundenes Individuum zurueckgeben
-bestInd = hallOfFame{1};
+bestIndEver = hallOfFame{1};
 
 end
 
