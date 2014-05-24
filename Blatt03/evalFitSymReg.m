@@ -24,8 +24,14 @@ for i=1:numel(forest)
     fHandle = tree2fun(forest{i},ops,terms);
     
     % RMSE berechnen
-    rmse = sqrt(sum((dataY-fHandle(dataX)).^2)/numel(dataX));
-
+    % Wenn NaN erzeugt wird, rmse auf inf setzen
+    dataFromTree = fHandle(dataX);
+    if sum(isnan(dataFromTree))>0
+        rmse = inf;
+    else
+        rmse = sqrt(sum((dataY-dataFromTree).^2)/numel(dataX));
+    end
+     
     % Fitnesswert in 'fit' schreiben
     fit(i) = 1/(1+rmse);
 end

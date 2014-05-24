@@ -1,4 +1,4 @@
-function [bestIndEver, bestIndis, meanIndis, worstIndis] = gpOpt(nrTrees,nrGen,fitnessFkt,nrOp,nrTerm,mutateCrossoverProb,maxStartDepth,mutateProb,maxMutateDepth,descProbab)
+function [hallOfFame, bestIndis, meanIndis, worstIndis, meanSize] = gpOpt(nrTrees,nrGen,fitnessFkt,nrOp,nrTerm,mutateCrossoverProb,maxStartDepth,mutateProb,maxMutateDepth,descProbab)
 %GPOPT(nrTrees, nrGen, fitnessFkt, nrOp, nrTerm, mutateCrossoverProb, maxStartDepth, mutateProb, maxMutateDepth, descprobab)
 % Optimierungsverfahren auf Basis der genetischen Programmierung
 % Es wird das Konzept der "Hall of Fame" genutzt
@@ -16,17 +16,21 @@ function [bestIndEver, bestIndis, meanIndis, worstIndis] = gpOpt(nrTrees,nrGen,f
 %  descProbab:                 Abstiegswahrscheinlichkeit des zufaelligen Teilbaumes bei der Mutation.
 %
 % RETURN:
-%   bestIndEver:                bestes jemals gefundenes Individuum
+%   hallOfFame:                 Cell-Array, enthaelt:
+%                               bestes Individuum (Index 1)
+%                               Fitness dessen (Index 2)
 %   bestIndis:                  Fitness des besten Individuums jeder
 %                               Generation
 %   meanIndis:                  Durchschnittliche Fitness jeder Generation
 %   worstIndis:                 Fitness des schlechtesten Individuums jeder
 %                               Generation
+%   meanSize:                   mittlere Groesse der Baueme (Anzahl Knoten/Blaetter) 
+%                               jeder Generation
 
 
 
 % Initialen Wald erzeugen
-forest = generateForest(nrTrees,maxStartDepth,desProbab,nrOp,nrTerm);
+forest = generateForest(nrTrees,maxStartDepth,descProbab,nrOp,nrTerm);
 
 % bestes jemals gefundenes Individuum (Hall of Fame)
 % in hallOfFame{1} liegt der beste je gefundene Baum
@@ -38,32 +42,38 @@ hallOfFame{2} = -1;
 bestIndis = zeros(nrGen,1);
 meanIndis = zeros(nrGen,1);
 worstIndis = zeros(nrGen,1);
+meanSize = zeros(nrGen,1);
 
 % Generationen durchlaufen
 for i=1:nrGen
-   
+    
     % Fitness des Waldes bewerten
-    fitness = treeEvalFitness(forest,fitnessFkt);
+    fitness = fitnessFkt(forest);
     
     % bestes Individuum der aktuellen Generation mit hallOfFame vergleichen
     [maxVal index] = max(fitness);
     
     if maxVal > hallOfFame{2}
-       hallOfFame{1} = forest{index}; 
+       hallOfFame{1} = forest{index};
+       hallOfFame{2} = maxVal; 
     end
     
     % Performancegroessen abspeichern
     bestIndis(i) = maxVal;
     meanIndis(i) = mean(fitness);
     worstIndis(i) = min(fitness);
+   
+    % meanSize berechnen VEKTORISIERBAR?!??!!?!
+    meanVals = zeros(nrTrees,1);
+    for m=1:nrTrees
+        meanVals(m) = size(forest{m},1);
+    end
+    meanSize(i) = mean(meanVals);
     
     % naechste Generation erzeugen
     forest = treeNextGeneration(forest,fitness,mutateCrossoverProb,mutateProb,maxMutateDepth,descProbab,nrOp,nrTerm);
     
 end
-
-% Bestes jemals gefundenes Individuum zurueckgeben
-bestIndEver = hallOfFame{1};
 
 end
 

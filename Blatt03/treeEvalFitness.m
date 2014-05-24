@@ -6,10 +6,10 @@ function fitnessVector = treeEvalFitness(forest, functionHandle)
 %   functionHandle:     Handle auf dei Fitnessfunktion
 %
 % RETURN:
-%   fitnesVector:       VEktor mit Fitnesses der einzelnen Baeume
+%   fitnesVector:       Vektor mit Fitnesses der einzelnen Baeume
 
 % Anzahl der Baeume
-nTrees = size(population,2);
+nTrees = size(forest,2);
 
 % FitnessVektor initialisieren
 fitnessVector = zeros(1,nTrees);
