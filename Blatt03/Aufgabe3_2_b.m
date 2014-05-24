@@ -1,7 +1,7 @@
 % Script zur Bearbeitung von Aufgabe 3.2.b
 
 % PARAMETERSETUP:
-nrTrees = 100;                         % Anzahl der Baeume
+nrTrees = 1000;                         % Anzahl der Baeume
 nrGen = 20;                             % Anzahl zu evolvierender Generationen
 mutateCrossoverProb = 0.5;              % Wahrscheinlichkeit fuer Mutation/Rekombination
 maxStartDepth = 4;                      % Maximale initiale Tiefe der Baeume
@@ -41,22 +41,23 @@ hold on
 plot(xVals,bestIndivids,'g');
 plot(xVals,meanIndivids,'b');
 plot(xVals,worstIndivids,'r');
-plot(xVals,hallOfFame{2},'k');
+plot(xVals,hallOfFame{2},'--k');
 hold off
 xlabel(ax(1),'Generationen');
 ylabel(ax(1),'Wert der Fitnessfunktion');
-axis 'auto y';
-legende1 = legend('bester Fitnesswert','mittlerer Fitnesswert','schlechtester Fitnesswert');
-set(legende1,'Location', 'best');
+axis([1,nrGen,0,1.5]);
+legende1 = legend('bester Fitnesswert','mittlerer Fitnesswert','schlechtester Fitnesswert','beste jemals gefundene Fitness');
+set(legende1,'Location', 'north');
 
 % Plot der Argumente des besten Individuums
 ax(2) = subplot(2,1,2);
 plot(xVals,meanSize,'r');
 xlabel(ax(2),'Generationen');
 ylabel(ax(2),'Mittlere Größe der Bäume');
+axis([1,nrGen,0,1]);
 axis 'autoy y';
 legende2 = legend('Mittlere Größe der Bäume');
-set(legende2,'Location', 'best');
+set(legende2,'Location', 'southeast');
 
 % Besten Baum anzeigen
 figure,treeShow(hallOfFame{1},ops,terms);
