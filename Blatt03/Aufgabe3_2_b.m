@@ -8,6 +8,7 @@ maxStartDepth = 4;                      % Maximale initiale Tiefe der Baeume
 mutateProb = 0.1;                       % Mutationswahrscheinlichkeit
 maxMutateDepth = 3;                     % Maximale Tiefe der mutierten Unterbaeume
 descProbab = 0.2;                       % Abstiegswahrscheinlichkeit
+killFattest = false;                     % Soll Survival of the Fattest unterbunden werden?
 ops = {'( + )','( - )',' .* ',' ./ '};  % Beschreibung der Operatoren
 terms = {'1','0','-1','x(1,:)'};        % Beschreibung der Terminalsymbole
 nrOps = numel(ops);                     
@@ -21,7 +22,7 @@ dataX = linspace(-10,10,nrData);
 dataY = dataX.^3 + dataX.^2 + dataX + 1;
 
 % Fitnessfunktion definieren
-fit = @(forest) evalFitSymReg(forest,dataX,dataY,ops,terms);
+fit = @(forest) evalFitSymReg(forest,dataX,dataY,ops,terms,killFattest);
 
 % Algorithmus mit Parametern laufen lassen und Performancegroessen
 % speichern
@@ -46,6 +47,7 @@ hold off
 xlabel(ax(1),'Generationen');
 ylabel(ax(1),'Wert der Fitnessfunktion');
 axis([1,nrGen,0,1.5]);
+axis 'autoy y';
 legende1 = legend('bester Fitnesswert','mittlerer Fitnesswert','schlechtester Fitnesswert','beste jemals gefundene Fitness');
 set(legende1,'Location', 'north');
 
@@ -53,7 +55,7 @@ set(legende1,'Location', 'north');
 ax(2) = subplot(2,1,2);
 plot(xVals,meanSize,'r');
 xlabel(ax(2),'Generationen');
-ylabel(ax(2),'Mittlere Größe der Bäume');
+ylabel(ax(2),'Mittlere Anzahl Blätter und Knoten');
 axis([1,nrGen,0,1]);
 axis 'autoy y';
 legende2 = legend('Mittlere Größe der Bäume');
