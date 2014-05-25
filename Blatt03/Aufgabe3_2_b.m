@@ -1,4 +1,4 @@
-% Script zur Bearbeitung von Aufgabe 3.2.b
+% Script zur Bearbeitung von Aufgabe 3.2 b) c) d) und e)
 
 % PARAMETERSETUP:
 nrTrees = 1000;                         % Anzahl der Baeume
@@ -8,11 +8,13 @@ maxStartDepth = 4;                      % Maximale initiale Tiefe der Baeume
 mutateProb = 0.1;                       % Mutationswahrscheinlichkeit
 maxMutateDepth = 3;                     % Maximale Tiefe der mutierten Unterbaeume
 descProbab = 0.2;                       % Abstiegswahrscheinlichkeit
-killFattest = false;                     % Soll Survival of the Fattest unterbunden werden?
+killFattest = false;                    % Soll Survival of the Fattest unterbunden werden?
+flagDataNoise = true;                  % true => Ausgabedaten (dataY) werden mit normalverteiltem Rauschen gestoert    
 ops = {'( + )','( - )',' .* ',' ./ '};  % Beschreibung der Operatoren
 terms = {'1','0','-1','x(1,:)'};        % Beschreibung der Terminalsymbole
 nrOps = numel(ops);                     
 nrTerms = numel(terms);
+
 
 
 % Definition der gesuchten Funktion durch ihre 
@@ -20,6 +22,13 @@ nrTerms = numel(terms);
 nrData = 1001;
 dataX = linspace(-10,10,nrData);
 dataY = dataX.^3 + dataX.^2 + dataX + 1;
+
+% Wenn gewuenscht, AusgabeDaten mit normalverteiltem Rauschen stoeren
+if flagDataNoise == true
+    % Rauschen = 10% von Wertebereich von 'dataY'
+    skalFac = max(dataY)-min(dataY)*0.1;
+    dataY = dataY + randn*skalFac;   
+end
 
 % Fitnessfunktion definieren
 fit = @(forest) evalFitSymReg(forest,dataX,dataY,ops,terms,killFattest);
@@ -49,7 +58,7 @@ ylabel(ax(1),'Wert der Fitnessfunktion');
 axis([1,nrGen,0,1.5]);
 axis 'autoy y';
 legende1 = legend('bester Fitnesswert','mittlerer Fitnesswert','schlechtester Fitnesswert','beste jemals gefundene Fitness');
-set(legende1,'Location', 'north');
+set(legende1,'Location', 'southeast');
 
 % Plot der Argumente des besten Individuums
 ax(2) = subplot(2,1,2);
