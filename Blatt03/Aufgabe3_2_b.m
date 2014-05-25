@@ -9,7 +9,8 @@ mutateProb = 0.1;                       % Mutationswahrscheinlichkeit
 maxMutateDepth = 3;                     % Maximale Tiefe der mutierten Unterbaeume
 descProbab = 0.2;                       % Abstiegswahrscheinlichkeit
 killFattest = false;                    % Soll Survival of the Fattest unterbunden werden?
-flagDataNoise = true;                  % true => Ausgabedaten (dataY) werden mit normalverteiltem Rauschen gestoert    
+flagDataNoise = false;                  % true => Ausgabedaten (dataY) werden mit normalverteiltem Rauschen gestoert   
+flagReducedData = true;                 % DatenMenge reduzieren (Aufgabenteil e). Falls true, wird auch 'flagDataNoise' true gesetzt!
 ops = {'( + )','( - )',' .* ',' ./ '};  % Beschreibung der Operatoren
 terms = {'1','0','-1','x(1,:)'};        % Beschreibung der Terminalsymbole
 nrOps = numel(ops);                     
@@ -19,8 +20,20 @@ nrTerms = numel(terms);
 
 % Definition der gesuchten Funktion durch ihre 
 % Ein- und Ausgabedaten
-nrData = 1001;
-dataX = linspace(-10,10,nrData);
+if flagReducedData == true
+    % elf gleichverteilte Zahlen aus [-10,10] ziehen
+    dataX = rand(1,11);
+    
+    % flagDataNoise auf true setzten, da in Aufgabe e) Rauschen verlangt
+    % wird
+    flagDataNoise = true;
+else
+    % 1001 gleichverteilte Daten erzeugen
+    nrData = 1001;
+    dataX = linspace(-10,10,nrData);    
+end
+
+% Ausgabedaten erzeugen
 dataY = dataX.^3 + dataX.^2 + dataX + 1;
 
 % Wenn gewuenscht, AusgabeDaten mit normalverteiltem Rauschen stoeren
@@ -72,6 +85,10 @@ set(legende2,'Location', 'southeast');
 
 % Besten Baum anzeigen
 figure,treeShow(hallOfFame{1},ops,terms);
+
+% Funktion in Konsole anzeigen
+func = tree2fun(hallOfFame{1},ops,terms);
+disp(func);
 
 
 
