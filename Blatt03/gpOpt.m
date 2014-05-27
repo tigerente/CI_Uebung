@@ -48,7 +48,7 @@ meanSize = zeros(nrGen,1);
 for i=1:nrGen
     
     % Fitness des Waldes bewerten
-    fitness = fitnessFkt(forest);
+    [fitness,sizes] = fitnessFkt(forest);
     
     % bestes Individuum der aktuellen Generation mit hallOfFame vergleichen
     [maxVal index] = max(fitness);
@@ -71,7 +71,7 @@ for i=1:nrGen
     meanSize(i) = mean(meanVals);
     
     % naechste Generation erzeugen
-    forest = treeNextGeneration(forest,fitness,mutateCrossoverProb,mutateProb,maxMutateDepth,descProbab,nrOp,nrTerm);
+    forest = treeNextGeneration(forest,fitness,sizes,mutateCrossoverProb,mutateProb,maxMutateDepth,descProbab,nrOp,nrTerm);
     
 end
 

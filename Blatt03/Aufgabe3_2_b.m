@@ -10,7 +10,7 @@ maxMutateDepth = 3;                     % Maximale Tiefe der mutierten Unterbaeu
 descProbab = 0.2;                       % Abstiegswahrscheinlichkeit
 killFattest = false;                    % Soll Survival of the Fattest unterbunden werden?
 flagDataNoise = false;                  % true => Ausgabedaten (dataY) werden mit normalverteiltem Rauschen gestoert   
-flagReducedData = true;                 % DatenMenge reduzieren (Aufgabenteil e). Falls true, wird auch 'flagDataNoise' true gesetzt!
+flagReducedData = false;                % DatenMenge reduzieren (Aufgabenteil e). Falls true, wird auch 'flagDataNoise' true gesetzt!
 ops = {'( + )','( - )',' .* ',' ./ '};  % Beschreibung der Operatoren
 terms = {'1','0','-1','x(1,:)'};        % Beschreibung der Terminalsymbole
 nrOps = numel(ops);                     
