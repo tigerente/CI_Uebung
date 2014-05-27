@@ -1,4 +1,4 @@
-function fitnessVector = treeEvalFitness(forest, functionHandle)
+function fitnessVector = treeEvalFitness(forest, fHandle)
 %TREEEVALFITNESS(forest, functionHandle)
 % Berechnet die Fitness von jedem Baum im Wald
 % PARAMETER:

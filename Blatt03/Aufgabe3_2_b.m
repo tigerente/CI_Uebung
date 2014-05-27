@@ -59,7 +59,7 @@ figure('units','normalized','outerposition',[0 0 1 1]) % figure maximieren
 xVals = 1:nrGen;
 
 % Plot der besten, mittleren und schlechtesten Fitnesswerte
-ax(1) = subplot(2,1,1);
+ax(1) = subplot(3,1,1);
 hold on
 plot(xVals,bestIndivids,'g');
 plot(xVals,meanIndivids,'b');
@@ -75,7 +75,7 @@ legende1 = legend('bester Fitnesswert','mittlerer Fitnesswert','schlechtester Fi
 set(legende1,'Location', 'southeast');
 
 % Plot der Argumente des besten Individuums
-ax(2) = subplot(2,1,2);
+ax(2) = subplot(3,1,2);
 plot(xVals,meanSize,'r');
 xlabel(ax(2),'Generationen');
 ylabel(ax(2),'Mittlere Anzahl Blätter und Knoten');
@@ -84,12 +84,26 @@ axis 'autoy y';
 legende2 = legend('Mittlere Größe der Bäume');
 set(legende2,'Location', 'southeast');
 
+% Regression plotten
+nValues = size(dataX,2);
+if nValues > 500
+    dataX=dataX(1:10:nValues);
+    dataY=dataY(1:10:nValues);
+end
+func = tree2fun(hallOfFame{1},ops,terms);
+yValsReg = func (dataX);
+ax(3) = subplot(3,1,3);
+hold on
+plot(dataX,dataY,'or', 'MarkerSize', 3);
+plot(dataX,yValsReg,'b');
+hold off
+xlabel(ax(3),'x');
+ylabel(ax(3),'y');
+legende3 = legend('Ausgangsdaten (ggf. Auswahl)', 'Regression');
+
 % Besten Baum anzeigen
 figure,treeShow(hallOfFame{1},ops,terms);
 
-% Funktion in Konsole anzeigen
-func = tree2fun(hallOfFame{1},ops,terms);
-disp(func);
 
 
 
