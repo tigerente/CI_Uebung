@@ -8,7 +8,7 @@ maxStartDepth = 4;                      % Maximale initiale Tiefe der Baeume
 mutateProb = 0.1;                       % Mutationswahrscheinlichkeit
 maxMutateDepth = 3;                     % Maximale Tiefe der mutierten Unterbaeume
 descProbab = 0.2;                       % Abstiegswahrscheinlichkeit
-killFattest = false;                    % Soll Survival of the Fattest unterbunden werden?
+killFattest = false;                    % Soll Survival of the Fattest durch Bestrafung der Groesse unterbunden werden?
 flagDataNoise = false;                  % true => Ausgabedaten (dataY) werden mit normalverteiltem Rauschen gestoert   
 flagReducedData = false;                % DatenMenge reduzieren (Aufgabenteil e). Falls true, wird auch 'flagDataNoise' true gesetzt!
 ops = {'( + )','( - )',' .* ',' ./ '};  % Beschreibung der Operatoren
@@ -44,12 +44,12 @@ if flagDataNoise == true
 end
 
 % Fitnessfunktion definieren
-fit = @(forest) evalFitSymReg(forest,dataX,dataY,ops,terms,killFattest);
+fit = @(forest) evalFitSymReg(forest,dataX,dataY,ops,terms);
 
 % Algorithmus mit Parametern laufen lassen und Performancegroessen
 % speichern
 [hallOfFame, bestIndivids, meanIndivids, worstIndivids, meanSize] = ...
-    gpOpt(nrTrees,nrGen,fit,nrOps,nrTerms,mutateCrossoverProb,maxStartDepth,mutateProb,maxMutateDepth,descProbab);
+    gpOpt(nrTrees,nrGen,fit,nrOps,nrTerms,mutateCrossoverProb,maxStartDepth,mutateProb,maxMutateDepth,descProbab,killFattest);
 
 
 % Plot der Performancegroessen

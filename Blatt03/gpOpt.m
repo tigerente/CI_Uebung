@@ -1,4 +1,4 @@
-function [hallOfFame, bestIndis, meanIndis, worstIndis, meanSize] = gpOpt(nrTrees,nrGen,fitnessFkt,nrOp,nrTerm,mutateCrossoverProb,maxStartDepth,mutateProb,maxMutateDepth,descProbab)
+function [hallOfFame, bestIndis, meanIndis, worstIndis, meanSize] = gpOpt(nrTrees,nrGen,fitnessFkt,nrOp,nrTerm,mutateCrossoverProb,maxStartDepth,mutateProb,maxMutateDepth,descProbab,killFattest)
 %GPOPT(nrTrees, nrGen, fitnessFkt, nrOp, nrTerm, mutateCrossoverProb, maxStartDepth, mutateProb, maxMutateDepth, descprobab)
 % Optimierungsverfahren auf Basis der genetischen Programmierung
 % Es wird das Konzept der "Hall of Fame" genutzt
@@ -14,6 +14,8 @@ function [hallOfFame, bestIndis, meanIndis, worstIndis, meanSize] = gpOpt(nrTree
 %  mutateProb:                 Mutationswahrscheinlichkeit jedes Knoten bzw. Blattes bei der Mutation.
 %  maxMutateDepth:             Maximale Tiefe des zufaelligen Teilbaumes bei der Mutation.
 %  descProbab:                 Abstiegswahrscheinlichkeit des zufaelligen Teilbaumes bei der Mutation.
+%   killFattest:                true: In die Selektion der Eltern fliesst
+%                                     neben der Fittness auch die Groesse ein
 %
 % RETURN:
 %   hallOfFame:                 Cell-Array, enthaelt:
@@ -71,7 +73,7 @@ for i=1:nrGen
     meanSize(i) = mean(meanVals);
     
     % naechste Generation erzeugen
-    forest = treeNextGeneration(forest,fitness,sizes,mutateCrossoverProb,mutateProb,maxMutateDepth,descProbab,nrOp,nrTerm);
+    forest = treeNextGeneration(forest,fitness,sizes,mutateCrossoverProb,mutateProb,maxMutateDepth,descProbab,nrOp,nrTerm,killFattest);
     
 end
 

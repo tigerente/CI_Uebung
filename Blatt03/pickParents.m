@@ -1,20 +1,25 @@
-function [parent1 parent2] = treePickParents(parentsPool, fitness, sizes)
+function [parent1 parent2] = pickParents(parentsPool, fitness, sizes, killFattest)
 %PICKPARENTS(parentsPool, fitness)
 % Waehlt 2 Eltern fitnessproportional aus einem ElternPool aus
 % PARAMETER:
 %   parentsPool:    Cell-Array aus dem die Eltern gewaehlt werden sollen
 %   fitness:        FitnessVektor der Eltern
 %   sizes:          Groessen der einzelnen Baeume
+%   killFattest:    true: In die Selektion der Eltern fliesst neben der
+%                   Fittness auch die Groesse antiproportional ein
 %
 % RETURN:
 %   2 Eltern zufaellig fitnessproportional ausgewaehlt
 
+% Ggf. Fitness-Reduktion entsprechend der Groesse:
+if killFattest
+    fitness = fitness./sizes;
+end
+
 % relative Fitnesses der Eltern
 fitness = fitness/sum(fitness);
 
-%fitness = fitness./(0.2*sizes);
-
-% Zeile mit Identitaeten der Eltern an FitnessVektor haengen
+% Zeile mit Indizes der Eltern an FitnessVektor haengen
 fitness(2,:) = 1:size(fitness,2);
 
 % Vektor nach relativer Fitness sortieren

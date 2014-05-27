@@ -1,4 +1,4 @@
-function [fit, sizes] = evalFitSymReg(forest,dataX,dataY,ops,terms,killFattest)
+function [fit, sizes] = evalFitSymReg(forest,dataX,dataY,ops,terms)
 %EVALFITSYMREG(forest,dataX,dataY,ops,terms,killFattest)
 % Bestimmt die Fitness jedes Baumes im Wald 'forest'.
 % Zur Bestimmung der Fitness wird der RMSE der, von der Funktion des Baumes
@@ -41,15 +41,7 @@ for i=1:numel(forest)
     
     % Groessen der Baeume in sizes schreiben
     sizes(i) = size(forest{i},1);
-    
-    % Wenn Strafterm fuer grosse Baeume gewuenscht
-    if killFattest == true
        
-       % Fitness des Baumes vermindern
-       punishFac = size(forest{i},1);
-       fit(i) = fit(i) / punishFac;
-    end
-    
 end
 
 end

@@ -1,4 +1,4 @@
-function newForest = treeNextGeneration(forest,fitness,sizes,mutateCrossoverProb,mutateProb,maxMutateDepth,descProbab,nrOp,nrTerm)
+function newForest = treeNextGeneration(forest,fitness,sizes,mutateCrossoverProb,mutateProb,maxMutateDepth,descProbab,nrOp,nrTerm,killFattest)
 %TREENEXTGENERATION(forest, fitness, mutateCrossoverProb, mutateProb, maxMutateDepth, descProbab, nrOp, nrTerm)
 % Erstellt aus einem gegebenen Wald einen neuen Wald
 % Individuen werden entweder durch Mutation oder Rekombination erzeugt.
@@ -15,6 +15,8 @@ function newForest = treeNextGeneration(forest,fitness,sizes,mutateCrossoverProb
 %   descProbab:             Abstiegswahrscheinlichkeit bei Mutation
 %   nrOp:                   Anzahl der moeglichen Operatoren
 %   nrTerm:                 Anzahl der moeglichen Terminale
+%   killFattest:            true: In die Selektion der Eltern fliesst
+%                                 neben der Fittness auch die Groesse ein
 %
 % RETURN:
 %   Einen neuen Wald
@@ -33,7 +35,7 @@ while freeIdx <= size(newForest,2)
     if (rand > mutateCrossoverProb) && (size(newForest,2) - freeIdx + 1 >= 2)
     
         % Eltern fitnessproportional waehlen
-        [parent1 parent2] = pickParents(forest,fitness,sizes);
+        [parent1 parent2] = pickParents(forest,fitness,sizes,killFattest);
     
         % Rekombination der beiden Elternteile zu zwei neuen Kindern
         [newForest{freeIdx} newForest{freeIdx+1}] = treeCrossover(parent1,parent2);
@@ -45,7 +47,7 @@ while freeIdx <= size(newForest,2)
     else
         
         % Einen Baum, der mutiert werden soll fitnessproportional auswaehlen 
-        mutantParent = pickParents(forest, fitness,sizes);
+        mutantParent = pickParents(forest, fitness,sizes,killFattest);
         
         % Baum mutieren und in neuen Wald einfuegen
         newForest{freeIdx} = treeMutate(mutantParent,mutateProb,maxMutateDepth,descProbab,nrOp,nrTerm);
