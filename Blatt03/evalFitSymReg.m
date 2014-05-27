@@ -1,5 +1,5 @@
 function [fit, sizes] = evalFitSymReg(forest,dataX,dataY,ops,terms)
-%EVALFITSYMREG(forest,dataX,dataY,ops,terms,killFattest)
+%EVALFITSYMREG(forest,dataX,dataY,ops,terms)
 % Bestimmt die Fitness jedes Baumes im Wald 'forest'.
 % Zur Bestimmung der Fitness wird der RMSE der, von der Funktion des Baumes
 % erzeugten Daten und der uebergebenen Daten bestimmt
@@ -9,8 +9,6 @@ function [fit, sizes] = evalFitSymReg(forest,dataX,dataY,ops,terms)
 %   dataY:          Ausgabewerte: (1 X m)-Matrix
 %   ops:            Beschreibung der Menge der Operatoren 
 %   terms:          Beschreibung der Menge der Terminalsymbole
-%   killFattest:    true => Groesse eines Baums wirkt antiproportional auf
-%                   Fitness
 %
 % RETURN:
 %   fit:        FitnessVektor des Waldes

@@ -1,7 +1,7 @@
 % Script zur Bearbeitung von Aufgabe 3.2 b) c) d) und e)
 
 % PARAMETERSETUP:
-nrTrees = 1000;                         % Anzahl der Baeume
+nrTrees = 100;                         % Anzahl der Baeume
 nrGen = 20;                             % Anzahl zu evolvierender Generationen
 mutateCrossoverProb = 0.5;              % Wahrscheinlichkeit fuer Mutation/Rekombination
 maxStartDepth = 4;                      % Maximale initiale Tiefe der Baeume
@@ -13,16 +13,16 @@ flagDataNoise = false;                  % true => Ausgabedaten (dataY) werden mi
 flagReducedData = false;                % DatenMenge reduzieren (Aufgabenteil e). Falls true, wird auch 'flagDataNoise' true gesetzt!
 ops = {'( + )','( - )',' .* ',' ./ '};  % Beschreibung der Operatoren
 terms = {'1','0','-1','x(1,:)'};        % Beschreibung der Terminalsymbole
+
 nrOps = numel(ops);                     
 nrTerms = numel(terms);
-
 
 
 % Definition der gesuchten Funktion durch ihre 
 % Ein- und Ausgabedaten
 if flagReducedData == true
     % elf gleichverteilte Zahlen aus [-10,10] ziehen
-    dataX = rand(1,11);
+    dataX = -10 + 20 * rand(1,11);
     
     % flagDataNoise auf true setzten, da in Aufgabe e) Rauschen verlangt
     % wird
@@ -39,7 +39,7 @@ dataY = dataX.^3 + dataX.^2 + dataX + 1;
 % Wenn gewuenscht, AusgabeDaten mit normalverteiltem Rauschen stoeren
 if flagDataNoise == true
     % Rauschen = 10% von Wertebereich von 'dataY'
-    skalFac = max(dataY)-min(dataY)*0.1;
+    skalFac = (max(dataY)-min(dataY))*0.1;
     dataY = dataY + randn*skalFac;   
 end
 
@@ -64,7 +64,8 @@ hold on
 plot(xVals,bestIndivids,'g');
 plot(xVals,meanIndivids,'b');
 plot(xVals,worstIndivids,'r');
-plot(xVals,hallOfFame{2},'--k');
+hallOfFameValue=repmat(hallOfFame{2},1,nrGen);
+plot(xVals,hallOfFameValue,'-.k');
 hold off
 xlabel(ax(1),'Generationen');
 ylabel(ax(1),'Wert der Fitnessfunktion');
