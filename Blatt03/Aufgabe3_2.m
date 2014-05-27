@@ -1,7 +1,7 @@
 % Script zur Bearbeitung von Aufgabe 3.2 b) c) d) und e)
 
 % PARAMETERSETUP:
-nrTrees = 1000;                         % Anzahl der Baeume
+nrTrees = 100;                         % Anzahl der Baeume
 nrGen = 20;                             % Anzahl zu evolvierender Generationen
 mutateCrossoverProb = 0.5;              % Wahrscheinlichkeit fuer Mutation/Rekombination
 maxStartDepth = 4;                      % Maximale initiale Tiefe der Baeume
@@ -63,7 +63,7 @@ figure('units','normalized','outerposition',[0 0 1 1]) % figure maximieren
 xVals = 1:nrGen;
 
 % Plot der besten, mittleren und schlechtesten Fitnesswerte
-ax(1) = subplot(3,1,1);
+ax(1) = subplot(2,2,1);
 hold on
 plot(xVals,bestIndivids,'g');
 plot(xVals,meanIndivids,'b');
@@ -79,7 +79,7 @@ legende1 = legend('bester Fitnesswert','mittlerer Fitnesswert','schlechtester Fi
 set(legende1,'Location', 'southeast');
 
 % Plot der Argumente des besten Individuums
-ax(2) = subplot(3,1,2);
+ax(2) = subplot(2,2,2);
 plot(xVals,meanSize,'r');
 xlabel(ax(2),'Generationen');
 ylabel(ax(2),'Mittlere Anzahl Blätter und Knoten');
@@ -96,7 +96,7 @@ completeDataYPure=completeDataYPure(1:5:nValues);
 
 func = tree2fun(hallOfFame{1},ops,terms);
 yValsReg = func (completeDataX);
-ax(3) = subplot(3,1,3);
+ax(3) = subplot(2,2,3);
 hold on
 plot(completeDataX,completeDataY,'ok', 'MarkerSize', 3);
 plot(completeDataX,completeDataYPure,'k');
@@ -113,7 +113,8 @@ ylabel(ax(3),'y');
 legende3 = legend('Ausgangsdaten', 'Originalfunktion', 'Datengrundlage für Regression', 'Regression');
 
 % Besten Baum anzeigen
-figure,treeShow(hallOfFame{1},ops,terms);
+subplot(2,2,4);
+treeShow(hallOfFame{1},ops,terms);
 
 
 
