@@ -64,13 +64,7 @@ for i=1:nrGen
     bestIndis(i) = maxVal;
     meanIndis(i) = mean(fitness);
     worstIndis(i) = min(fitness);
-   
-    % meanSize berechnen VEKTORISIERBAR?!??!!?!
-    meanVals = zeros(nrTrees,1);
-    for m=1:nrTrees
-        meanVals(m) = size(forest{m},1);
-    end
-    meanSize(i) = mean(meanVals);
+    meanSize(i) = mean(sizes);
     
     % naechste Generation erzeugen
     forest = treeNextGeneration(forest,fitness,sizes,mutateCrossoverProb,mutateProb,maxMutateDepth,descProbab,nrOp,nrTerm,killFattest);

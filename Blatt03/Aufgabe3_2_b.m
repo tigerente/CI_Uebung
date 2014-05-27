@@ -9,8 +9,8 @@ mutateProb = 0.1;                       % Mutationswahrscheinlichkeit
 maxMutateDepth = 3;                     % Maximale Tiefe der mutierten Unterbaeume
 descProbab = 0.2;                       % Abstiegswahrscheinlichkeit
 killFattest = false;                    % Soll Survival of the Fattest durch Bestrafung der Groesse unterbunden werden?
-flagDataNoise = true;                  % true => Ausgabedaten (dataY) werden mit normalverteiltem Rauschen gestoert   
-flagReducedData = true;                % DatenMenge reduzieren (Aufgabenteil e). Falls true, wird auch 'flagDataNoise' true gesetzt!
+flagDataNoise = false;                  % true => Ausgabedaten (dataY) werden mit normalverteiltem Rauschen gestoert   
+flagReducedData = false;                % DatenMenge reduzieren (Aufgabenteil e). Falls true, wird auch 'flagDataNoise' true gesetzt!
 ops = {'( + )','( - )',' .* ',' ./ '};  % Beschreibung der Operatoren
 terms = {'1','0','-1','x(1,:)'};        % Beschreibung der Terminalsymbole
 
@@ -38,12 +38,15 @@ end
 realFunction = @(x) x.^3 + x.^2 + x + 1;
 dataY = realFunction (dataX);
 completeDataY = realFunction(completeDataX);
+completeDataYPure=completeDataY;
 
 % Wenn gewuenscht, AusgabeDaten mit normalverteiltem Rauschen stoeren
 if flagDataNoise == true
     % Rauschen = 10% von Wertebereich von 'dataY'
     skalFac = (max(dataY)-min(dataY))*0.1;
-    dataY = dataY + randn(1,size(dataX,2)) * skalFac;   
+    dataY = dataY + randn(1,size(dataX,2)) * skalFac;
+    skalFac = (max(completeDataY)-min(completeDataY))*0.1;
+    completeDataY = completeDataY + randn(1,size(completeDataX,2)) * skalFac; 
 end
 
 % Fitnessfunktion definieren
@@ -56,8 +59,6 @@ fit = @(forest) evalFitSymReg(forest,dataX,dataY,ops,terms);
 
 
 % Plot der Performancegroessen
-% xValuesAlgo = 1:numGenerations+1;   % X-werte fuer Auswertung des Algorithmus
-% xValuesShow = linspace(0,2^numGenes,10000);
 figure('units','normalized','outerposition',[0 0 1 1]) % figure maximieren
 xVals = 1:nrGen;
 
@@ -91,18 +92,25 @@ set(legende2,'Location', 'southeast');
 nValues=size(completeDataX,2);
 completeDataX=completeDataX(1:5:nValues); % Reduktion der Anzahl fuer lesbare Anzeige
 completeDataY=completeDataY(1:5:nValues);
+completeDataYPure=completeDataYPure(1:5:nValues);
 
 func = tree2fun(hallOfFame{1},ops,terms);
 yValsReg = func (completeDataX);
 ax(3) = subplot(3,1,3);
 hold on
 plot(completeDataX,completeDataY,'ok', 'MarkerSize', 3);
+plot(completeDataX,completeDataYPure,'k');
+if flagReducedData == false
+    dataX=dataX(1:5:nValues); % Reduktion der Anzahl fuer lesbare Anzeige
+    dataY=dataY(1:5:nValues);
+end
 plot(dataX,dataY,'or', 'MarkerSize', 3);
+
 plot(completeDataX,yValsReg,'b');
 hold off
 xlabel(ax(3),'x');
 ylabel(ax(3),'y');
-legende3 = legend('Ausgangsdaten', 'Datengrundlage fuer Regression', 'Regression');
+legende3 = legend('Ausgangsdaten', 'Originalfunktion', 'Datengrundlage für Regression', 'Regression');
 
 % Besten Baum anzeigen
 figure,treeShow(hallOfFame{1},ops,terms);
