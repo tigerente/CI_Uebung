@@ -1,7 +1,7 @@
 % Script zur Bearbeitung von Aufgabe 3.2 b) c) d) und e)
 
 % PARAMETERSETUP:
-nrTrees = 100;                         % Anzahl der Baeume
+nrTrees = 1000;                         % Anzahl der Baeume
 nrGen = 20;                             % Anzahl zu evolvierender Generationen
 mutateCrossoverProb = 0.5;              % Wahrscheinlichkeit fuer Mutation/Rekombination
 maxStartDepth = 4;                      % Maximale initiale Tiefe der Baeume
@@ -9,8 +9,8 @@ mutateProb = 0.1;                       % Mutationswahrscheinlichkeit
 maxMutateDepth = 3;                     % Maximale Tiefe der mutierten Unterbaeume
 descProbab = 0.2;                       % Abstiegswahrscheinlichkeit
 killFattest = false;                    % Soll Survival of the Fattest durch Bestrafung der Groesse unterbunden werden?
-flagDataNoise = false;                  % true => Ausgabedaten (dataY) werden mit normalverteiltem Rauschen gestoert   
-flagReducedData = false;                % DatenMenge reduzieren (Aufgabenteil e). Falls true, wird auch 'flagDataNoise' true gesetzt!
+flagDataNoise = true;                  % true => Ausgabedaten (dataY) werden mit normalverteiltem Rauschen gestoert   
+flagReducedData = true;                % DatenMenge reduzieren (Aufgabenteil e). Falls true, wird auch 'flagDataNoise' true gesetzt!
 ops = {'( + )','( - )',' .* ',' ./ '};  % Beschreibung der Operatoren
 terms = {'1','0','-1','x(1,:)'};        % Beschreibung der Terminalsymbole
 
@@ -54,7 +54,7 @@ fit = @(forest) evalFitSymReg(forest,dataX,dataY,ops,terms);
 
 % Algorithmus mit Parametern laufen lassen und Performancegroessen
 % speichern
-[hallOfFame, bestIndivids, meanIndivids, worstIndivids, meanSize] = ...
+[hallOfFame, bestIndivids, meanIndivids, worstIndivids, minSize, meanSize, maxSize] = ...
     gpOpt(nrTrees,nrGen,fit,nrOps,nrTerms,mutateCrossoverProb,maxStartDepth,mutateProb,maxMutateDepth,descProbab,killFattest);
 
 
@@ -80,13 +80,17 @@ set(legende1,'Location', 'southeast');
 
 % Plot der Argumente des besten Individuums
 ax(2) = subplot(2,2,2);
-plot(xVals,meanSize,'r');
+hold on
+plot(xVals,minSize,'g');
+plot(xVals,meanSize,'b');
+plot(xVals,maxSize,'r');
+hold off
 xlabel(ax(2),'Generationen');
-ylabel(ax(2),'Mittlere Anzahl Blätter und Knoten');
+ylabel(ax(2),'Anzahl Blätter und Knoten');
 axis([1,nrGen,0,1]);
 axis 'autoy y';
-legende2 = legend('Mittlere Größe der Bäume');
-set(legende2,'Location', 'southeast');
+legende2 = legend('Minimale Größe der Bäume','Mittlere Größe der Bäume','Maximale Größe der Bäume');
+set(legende2,'Location', 'north');
 
 % Regression plotten
 nValues=size(completeDataX,2);
@@ -98,20 +102,24 @@ func = tree2fun(hallOfFame{1},ops,terms);
 yValsReg = func (completeDataX);
 ax(3) = subplot(2,2,3);
 hold on
-plot(completeDataX,completeDataY,'ok', 'MarkerSize', 3);
-plot(completeDataX,completeDataYPure,'k');
-if flagReducedData == false
+if flagReducedData == true
+    plot(completeDataX,completeDataY,'ok', 'MarkerSize', 3);
+else
     dataX=dataX(1:5:nValues); % Reduktion der Anzahl fuer lesbare Anzeige
     dataY=dataY(1:5:nValues);
 end
+plot(completeDataX,completeDataYPure,'k');
 plot(dataX,dataY,'or', 'MarkerSize', 3);
 
 plot(completeDataX,yValsReg,'b');
 hold off
 xlabel(ax(3),'x');
 ylabel(ax(3),'y');
-legende3 = legend('Ausgangsdaten', 'Originalfunktion', 'Datengrundlage für Regression', 'Regression');
-
+if flagReducedData == true
+    legende3 = legend('Ausgangsdaten', 'Originalfunktion', 'Datengrundlage für Regression', 'Regression');
+else
+    legende3 = legend('Originalfunktion', 'Datengrundlage für Regression', 'Regression');
+end
 % Besten Baum anzeigen
 subplot(2,2,4);
 treeShow(hallOfFame{1},ops,terms);

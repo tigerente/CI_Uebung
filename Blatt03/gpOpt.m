@@ -1,4 +1,4 @@
-function [hallOfFame, bestIndis, meanIndis, worstIndis, meanSize] = gpOpt(nrTrees,nrGen,fitnessFkt,nrOp,nrTerm,mutateCrossoverProb,maxStartDepth,mutateProb,maxMutateDepth,descProbab,killFattest)
+function [hallOfFame, bestIndis, meanIndis, worstIndis, minSize, meanSize, maxSize] = gpOpt(nrTrees,nrGen,fitnessFkt,nrOp,nrTerm,mutateCrossoverProb,maxStartDepth,mutateProb,maxMutateDepth,descProbab,killFattest)
 %GPOPT(nrTrees, nrGen, fitnessFkt, nrOp, nrTerm, mutateCrossoverProb, maxStartDepth, mutateProb, maxMutateDepth, descprobab)
 % Optimierungsverfahren auf Basis der genetischen Programmierung
 % Es wird das Konzept der "Hall of Fame" genutzt
@@ -26,8 +26,10 @@ function [hallOfFame, bestIndis, meanIndis, worstIndis, meanSize] = gpOpt(nrTree
 %   meanIndis:                  Durchschnittliche Fitness jeder Generation
 %   worstIndis:                 Fitness des schlechtesten Individuums jeder
 %                               Generation
+%   minSize:                    minimale Groesse er Baeume
 %   meanSize:                   mittlere Groesse der Baueme (Anzahl Knoten/Blaetter) 
 %                               jeder Generation
+%   maxSize:                    maximale Groesse er Baeume
 
 
 
@@ -44,7 +46,9 @@ hallOfFame{2} = -1;
 bestIndis = zeros(nrGen,1);
 meanIndis = zeros(nrGen,1);
 worstIndis = zeros(nrGen,1);
+minSize = zeros(nrGen,1);
 meanSize = zeros(nrGen,1);
+maxSize = zeros(nrGen,1);
 
 % Generationen durchlaufen
 for i=1:nrGen
@@ -64,7 +68,9 @@ for i=1:nrGen
     bestIndis(i) = maxVal;
     meanIndis(i) = mean(fitness);
     worstIndis(i) = min(fitness);
+    minSize(i) = min(sizes);
     meanSize(i) = mean(sizes);
+    maxSize(i) = max(sizes);
     
     % naechste Generation erzeugen
     forest = treeNextGeneration(forest,fitness,sizes,mutateCrossoverProb,mutateProb,maxMutateDepth,descProbab,nrOp,nrTerm,killFattest);
