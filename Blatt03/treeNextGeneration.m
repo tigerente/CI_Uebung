@@ -2,11 +2,12 @@ function newForest = treeNextGeneration(forest,fitness,sizes,mutateCrossoverProb
 %TREENEXTGENERATION(forest, fitness, mutateCrossoverProb, mutateProb, maxMutateDepth, descProbab, nrOp, nrTerm)
 % Erstellt aus einem gegebenen Wald einen neuen Wald
 % Individuen werden entweder durch Mutation oder Rekombination erzeugt.
-% Selektion der Eltern fitnessproportional durch Statistica Universal
+% Selektion der Eltern fitnessproportional durch Statistical Universal
 % Sampling
 %PARAMETER:
 %   forest:                 Eltern-Wald/-Population
 %   fitness:                Vektor mit Fitnesswerten der einzelnen Individuen
+%   sizes:                  Vektor mit den Groessen der einzelnen Baeume
 %   mutateCrossoverProb:    Wahrscheinlichkeit fuer Mutation bzw.
 %                           Gegenwahrscheinlichkeit fuer Rekombination. 
 %   mutateProb:             Wahrscheinlichkeit fuer Mutation eines Knotens
@@ -29,7 +30,7 @@ freeIdx = 1;
 while freeIdx <= size(newForest,2)
     
     % Rekombination nur, wenn noch mindestens 2 freie Plaetze in 'newForest'
-    if (rand > mutateCrossoverProb) && (size(newForest,2) - freeIdx - 1 >= 2)
+    if (rand > mutateCrossoverProb) && (size(newForest,2) - freeIdx + 1 >= 2)
     
         % Eltern fitnessproportional waehlen
         [parent1 parent2] = pickParents(forest,fitness,sizes);
