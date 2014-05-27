@@ -8,7 +8,7 @@ maxStartDepth = 4;                      % Maximale initiale Tiefe der Baeume
 mutateProb = 0.1;                       % Mutationswahrscheinlichkeit
 maxMutateDepth = 3;                     % Maximale Tiefe der mutierten Unterbaeume
 descProbab = 0.2;                       % Abstiegswahrscheinlichkeit
-killFattest = false;                    % Soll Survival of the Fattest durch Bestrafung der Groesse unterbunden werden?
+killFattest = true;                    % Soll Survival of the Fattest durch Bestrafung der Groesse unterbunden werden?
 flagDataNoise = false;                  % true => Ausgabedaten (dataY) werden mit normalverteiltem Rauschen gestoert   
 flagReducedData = false;                % DatenMenge reduzieren (Aufgabenteil e). Falls true, wird auch 'flagDataNoise' true gesetzt!
 ops = {'( + )','( - )',' .* ',' ./ '};  % Beschreibung der Operatoren
@@ -22,8 +22,8 @@ nrTerms = numel(terms);
 % Ein- und Ausgabedaten
 if flagReducedData == true
     % elf gleichverteilte Zahlen aus [-10,10] ziehen
-    dataX = rand(1,11);
-    
+    dataX = -10 + 20.*rand(1,11);
+   
     % flagDataNoise auf true setzten, da in Aufgabe e) Rauschen verlangt
     % wird
     flagDataNoise = true;
