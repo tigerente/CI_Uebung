@@ -1,7 +1,7 @@
 % Script zur Bearbeitung von Aufgabe 3.2 b) c) d) und e)
 
 % PARAMETERSETUP:
-nrTrees = 100;                         % Anzahl der Baeume
+nrTrees = 1000;                         % Anzahl der Baeume
 nrGen = 20;                             % Anzahl zu evolvierender Generationen
 mutateCrossoverProb = 0.5;              % Wahrscheinlichkeit fuer Mutation/Rekombination
 maxStartDepth = 4;                      % Maximale initiale Tiefe der Baeume
@@ -9,14 +9,17 @@ mutateProb = 0.1;                       % Mutationswahrscheinlichkeit
 maxMutateDepth = 3;                     % Maximale Tiefe der mutierten Unterbaeume
 descProbab = 0.2;                       % Abstiegswahrscheinlichkeit
 killFattest = false;                    % Soll Survival of the Fattest durch Bestrafung der Groesse unterbunden werden?
-flagDataNoise = false;                  % true => Ausgabedaten (dataY) werden mit normalverteiltem Rauschen gestoert   
-flagReducedData = false;                % DatenMenge reduzieren (Aufgabenteil e). Falls true, wird auch 'flagDataNoise' true gesetzt!
+flagDataNoise = true;                  % true => Ausgabedaten (dataY) werden mit normalverteiltem Rauschen gestoert   
+flagReducedData = true;                % DatenMenge reduzieren (Aufgabenteil e). Falls true, wird auch 'flagDataNoise' true gesetzt!
 ops = {'( + )','( - )',' .* ',' ./ '};  % Beschreibung der Operatoren
 terms = {'1','0','-1','x(1,:)'};        % Beschreibung der Terminalsymbole
 
 nrOps = numel(ops);                     
 nrTerms = numel(terms);
 
+% 1001 gleichverteilte Daten erzeugen
+nrData = 1001;
+completeDataX = linspace(-10,10,nrData);  
 
 % Definition der gesuchten Funktion durch ihre 
 % Ein- und Ausgabedaten
@@ -28,19 +31,19 @@ if flagReducedData == true
     % wird
     flagDataNoise = true;
 else
-    % 1001 gleichverteilte Daten erzeugen
-    nrData = 1001;
-    dataX = linspace(-10,10,nrData);    
+    dataX = completeDataX;   
 end
 
 % Ausgabedaten erzeugen
-dataY = dataX.^3 + dataX.^2 + dataX + 1;
+realFunction = @(x) x.^3 + x.^2 + x + 1;
+dataY = realFunction (dataX);
+completeDataY = realFunction(completeDataX);
 
 % Wenn gewuenscht, AusgabeDaten mit normalverteiltem Rauschen stoeren
 if flagDataNoise == true
     % Rauschen = 10% von Wertebereich von 'dataY'
     skalFac = (max(dataY)-min(dataY))*0.1;
-    dataY = dataY + randn*skalFac;   
+    dataY = dataY + randn(1,size(dataX,2)) * skalFac;   
 end
 
 % Fitnessfunktion definieren
@@ -85,21 +88,21 @@ legende2 = legend('Mittlere Größe der Bäume');
 set(legende2,'Location', 'southeast');
 
 % Regression plotten
-nValues = size(dataX,2);
-if nValues > 500
-    dataX=dataX(1:10:nValues);
-    dataY=dataY(1:10:nValues);
-end
+nValues=size(completeDataX,2);
+completeDataX=completeDataX(1:5:nValues); % Reduktion der Anzahl fuer lesbare Anzeige
+completeDataY=completeDataY(1:5:nValues);
+
 func = tree2fun(hallOfFame{1},ops,terms);
-yValsReg = func (dataX);
+yValsReg = func (completeDataX);
 ax(3) = subplot(3,1,3);
 hold on
+plot(completeDataX,completeDataY,'ok', 'MarkerSize', 3);
 plot(dataX,dataY,'or', 'MarkerSize', 3);
-plot(dataX,yValsReg,'b');
+plot(completeDataX,yValsReg,'b');
 hold off
 xlabel(ax(3),'x');
 ylabel(ax(3),'y');
-legende3 = legend('Ausgangsdaten (ggf. Auswahl)', 'Regression');
+legende3 = legend('Ausgangsdaten', 'Datengrundlage fuer Regression', 'Regression');
 
 % Besten Baum anzeigen
 figure,treeShow(hallOfFame{1},ops,terms);
