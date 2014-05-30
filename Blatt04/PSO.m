@@ -14,10 +14,10 @@ end
 
 % _________________________________________________________________________
 %Parameter des PSO
-nrParticle = 10^2; % Anzahl an Partikeln (Quadratzahl fuer regulaere Startverteilung)
-vmin = 0.0; vmax = 1.0; % Minimale bzw. maximale Geschwindigkeit
-c0 = 1; % Tr‰gheit
-c1 = 1; % kognitiver Einfluss
+nrParticle = 20^2; % Anzahl an Partikeln (Quadratzahl fuer regulaere Startverteilung)
+vmin = 0.01; vmax = 0.2; % Minimale bzw. maximale Geschwindigkeit
+c0 = 1.0; % Traegheit
+c1 = 0.0; % kognitiver Einfluss
 c2 = 1; % sozialer Einfluss
 sPosRndElseRegl = true; % true: Startpositionen sind zufaellig gleichverteilt
                         % false: Startpositionen sind gleichmaeﬂig verteilt
@@ -77,11 +77,13 @@ while ~finished
     pause(0.01);
     
     %alle Partikel bewerten
-    schwarm(PERF, :) = f(schwarm([X Y],:));
+    for j = 1:nrParticle
+        schwarm(PERF, j) = f(schwarm([X Y],j));
+    end
     
     %Besten des Schwarms ggf. merken und Abbruchbedingung pruefen
     lastWinnerPerf = winnerPerf
-    [winnerPerf,winnerIdx] = max(schwarm(PERF, :));
+    [winnerPerf,winnerIdx] = min(schwarm(PERF, :));
     if (winnerPerf < 0.1 && abs(lastWinnerPerf - winnerPerf) < 0.1)
         finished = true;
     end
@@ -105,7 +107,7 @@ while ~finished
         if rightNb == nrParticle + 1
             rightNb = 1;
         end
-        if (schwarm(PERF, leftNb) > schwarm(PERF, rightNb))
+        if (schwarm(PERF, leftNb) < schwarm(PERF, rightNb))
             bestNb = leftNb;
         else
             bestNb = rightNb;
