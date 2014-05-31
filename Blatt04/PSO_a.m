@@ -1,4 +1,3 @@
-tic;
 %Definitionsbereich der Zielfunktion
 minVal = -2*pi;
 maxVal = 2*pi;
@@ -16,9 +15,9 @@ end
 % _________________________________________________________________________
 %Parameter des PSO
 nrParticle = 20^2; % Anzahl an Partikeln (Quadratzahl fuer regulaere Startverteilung)
-vmin = 0.0001; vmax = 12; % Minimale bzw. maximale Geschwindigkeit
-c0 = 0.3; % Traegheit
-c1 = 0.01; % kognitiver Einfluss
+vmin = 0.01; vmax = 0.2; % Minimale bzw. maximale Geschwindigkeit
+c0 = 1.0; % Traegheit
+c1 = 0.1; % kognitiver Einfluss
 c2 = 1; % sozialer Einfluss
 sPosRndElseRegl = true; % true: Startpositionen sind zufaellig gleichverteilt
                         % false: Startpositionen sind gleichmaeﬂig verteilt
@@ -47,8 +46,6 @@ PERF = 7; BESTPERF = 8; %
     %Startgeschwindigkeit der Partikel
     if sVelRndElseZero
         schwarm([DX DY],:) = vmin + (vmax-vmin) * rand(2,nrParticle);
-        sign = 2*randi(2,2,nrParticle)-3; % zuf‰llige Vorzeichen
-        schwarm([DX DY],:) = schwarm([DX DY],:) .* sign;
     else
         schwarm([DX DY],:) = zeros(2,nrParticle);
     end
@@ -75,7 +72,6 @@ while ~finished
     hold on
     %und Schwarm darauf zeichnen
     plot(schwarm(Y,:), schwarm(X,:), '.k');
-    %plot(schwarm(BESTY,:), schwarm(BESTX,:), 'ok');
     hold off
     drawnow;
     pause(0.01);
@@ -86,9 +82,9 @@ while ~finished
     end
     
     %Besten des Schwarms ggf. merken und Abbruchbedingung pruefen
-    lastWinnerPerf = winnerPerf;
+    lastWinnerPerf = winnerPerf
     [winnerPerf,winnerIdx] = min(schwarm(PERF, :));
-    if (winnerPerf < 0.01 && abs(lastWinnerPerf - winnerPerf) < 0.01)
+    if (winnerPerf < 0.1 && abs(lastWinnerPerf - winnerPerf) < 0.1)
         finished = true;
     end
     
@@ -145,4 +141,3 @@ while ~finished
 end
 
 %Auswertung der Resultate
-toc;
