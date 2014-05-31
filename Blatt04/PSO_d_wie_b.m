@@ -1,9 +1,9 @@
 % 1) TESTPARAMETER
 flagPlot = true;
-nrRuns = 1;
+nrRuns = 100;
 
 % 2) PARAMETER DES PSO
-nrParticle = 10; %49; % Anzahl an Partikeln
+nrParticle = 100; % Anzahl an Partikeln
 vmin = 0.0001; vmax = 12; % Minimale bzw. maximale Geschwindigkeit
 c0 = 0.3; % Traegheit
 c1 = 0.01; % kognitiver Einfluss
@@ -71,6 +71,7 @@ for run = 1:nrRuns
         %Besten des Schwarms ggf. merken und Abbruchbedingung pruefen
         lastWinnerPerf = winnerPerf;
         [winnerPerf,winnerIdx] = min(schwarm(PERF, :));
+        %disp(num2str(winnerPerf));
         if (winnerPerf < 0.1 && abs(lastWinnerPerf - winnerPerf) < 0.1)
             finished = true;
         end
@@ -125,6 +126,11 @@ for run = 1:nrRuns
             schwarm(DX, j) = v;
         end
         nIter = nIter + 1;
+        % Abfangen von Endlosschleifen:
+        if nIter > 1000
+            disp ('Abbruch bei 1.000 Iterationen.');
+            finished = true;
+        end
     end
 
     %toc;
