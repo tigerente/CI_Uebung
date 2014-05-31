@@ -1,21 +1,11 @@
-tic;
-%Definitionsbereich der Zielfunktion
-minVal = -2*pi;
-maxVal = 2*pi;
-
-%Zielfunktion für Visualisierung erzeugen
-x1 = linspace(minVal, maxVal, 100);
-x2 = linspace(minVal, maxVal, 100);
-y = zeros(length(x1), length(x1));
-for i=1:length(x1)
-    for j=1:length(x2)
-        y(i,j) = f([x1(i) x2(j)]);
-    end
-end
+plot = false;
+nrRuns = 100;
+nIters = zeros (1, nrRuns);
+nFuncCalls = zeros (1, nrRuns);
 
 % _________________________________________________________________________
 %Parameter des PSO
-nrParticle = 20^2; % Anzahl an Partikeln (Quadratzahl fuer regulaere Startverteilung)
+nrParticle = 7^2; % Anzahl an Partikeln (Quadratzahl fuer regulaere Startverteilung)
 vmin = 0.0001; vmax = 12; % Minimale bzw. maximale Geschwindigkeit
 c0 = 0.3; % Traegheit
 c1 = 0.01; % kognitiver Einfluss
@@ -31,6 +21,26 @@ X = 1; Y = 2; % Position
 DX = 3; DY = 4; % Geschwindigkeit
 BESTX = 5; BESTY = 6; % Beste individuelle Position
 PERF = 7; BESTPERF = 8; % 
+
+for run = 1:nrRuns
+%tic;
+nAuswertungen = 0;
+
+%Definitionsbereich der Zielfunktion
+minVal = -2*pi;
+maxVal = 2*pi;
+
+%Zielfunktion für Visualisierung erzeugen
+if plot
+    x1 = linspace(minVal, maxVal, 100);
+    x2 = linspace(minVal, maxVal, 100);
+    y = zeros(length(x1), length(x1));
+    for i=1:length(x1)
+        for j=1:length(x2)
+            y(i,j) = f([x1(i) x2(j)]);
+        end
+    end
+end
 
 %Schwarm anlegen und mit sinnvollen Werten initialisieren
     schwarm = zeros(8,nrParticle);
@@ -58,11 +68,12 @@ PERF = 7; BESTPERF = 8; %
     
     %Performance der Partikel
     perf = f(schwarm([X Y],:));
-    bestPerf = f(schwarm([BESTX BESTY],:));
+    nAuswertungen = nAuswertungen + nrParticle;
+    bestPerf = perf;
     schwarm([PERF BESTPERF],:) = [perf; bestPerf];
 
     finished = false;
-    nrIter = 0;
+    nIter = 0;
 
 %Speicher fuer Verlaufsvariablen anlegen
 winnerPerf = Inf;
@@ -70,25 +81,28 @@ lastWinnerPerf = Inf;
 
 %Optimierungsschleife
 while ~finished
-    %2D-Zielfunktion in den Hintergrund legen
-    pcolor(x2,x1,y), shading flat;
-    hold on
-    %und Schwarm darauf zeichnen
-    plot(schwarm(Y,:), schwarm(X,:), '.k');
-    %plot(schwarm(BESTY,:), schwarm(BESTX,:), 'ok');
-    hold off
-    drawnow;
-    pause(0.01);
+    if plot
+        %2D-Zielfunktion in den Hintergrund legen
+        pcolor(x2,x1,y), shading flat;
+        hold on
+        %und Schwarm darauf zeichnen
+        plot(schwarm(Y,:), schwarm(X,:), '.k');
+        %plot(schwarm(BESTY,:), schwarm(BESTX,:), 'ok');
+        hold off
+        drawnow;
+        pause(0.01);
+    end
     
     %alle Partikel bewerten
     for j = 1:nrParticle
         schwarm(PERF, j) = f(schwarm([X Y],j));
+        nAuswertungen = nAuswertungen + 1;
     end
     
     %Besten des Schwarms ggf. merken und Abbruchbedingung pruefen
     lastWinnerPerf = winnerPerf;
     [winnerPerf,winnerIdx] = min(schwarm(PERF, :));
-    if (winnerPerf < 0.01 && abs(lastWinnerPerf - winnerPerf) < 0.01)
+    if (winnerPerf < 0.1 && abs(lastWinnerPerf - winnerPerf) < 0.1)
         finished = true;
     end
     
@@ -141,8 +155,14 @@ while ~finished
         schwarm([X Y], j) = x;
         schwarm([DX DY], j) = v;
     end
-    nrIter = nrIter + 1;
+    nIter = nIter + 1;
 end
 
 %Auswertung der Resultate
-toc;
+%toc;
+nIters(run)=nIter;
+nFuncCalls(run)=nAuswertungen;
+end
+
+disp(['Durchschnittliche Anzahl an Iterationen: ', num2str(mean(nIter))]);
+disp(['Durchschnittliche Anzahl an Auswertungen: ', num2str(mean(nFuncCalls))]);
