@@ -1,5 +1,5 @@
-function idxNextNode = pickStreet(pheromoneMap, currentNodeIdx)
-%PICKNEXTSTREET(pheromoneMap, currentNodeIdx)
+function idxNextNode = nextNode(pheromoneMap, currentNodeIdx)
+%nextNode(pheromoneMap, currentNodeIdx)
 % Waehlt proportional zur Pheromonstaerke eine Kante des Graphen aus, der
 % durch 'pheromoneMap' repraesentiert wird
 % PARAMETER:
