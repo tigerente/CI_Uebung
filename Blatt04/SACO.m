@@ -39,9 +39,6 @@ paths = cell (1, nrAnts);
 costs = zeros (1, nrAnts); % Kosten der Ameisenpfade
 bestPathCosts = Inf;
 
-% Fuers Protokoll
-allPheros = cell(1,q(1));
-
 % INITIALISIERUNG
 pheros = (E>0)*initialPhero; % Alle vorhandenen Kanten: initiale Pheromonstaerke
 
@@ -65,7 +62,6 @@ while ~finished
     
     % Aktualisiere Pheromonstaerken:
     pheros = (1-rho)*pheros + depositPheros(paths, costs, n);
-    allPheros{1,iterations} = pheros;
     
     % Aktualisiere Hall of Fame:
     [newBestPathCosts, newBestPathIdx] = min(costs);
@@ -78,7 +74,7 @@ while ~finished
     
     % Visualisierung:
     if visual
-        figure;
+        figure('WindowStyle', 'docked');
         gplot(E,V, 'k');
         hold all;
         for a = 1 : nrAnts
@@ -98,8 +94,5 @@ while ~finished
     
     
 end
-
-% Entwicklung der Pheromone speichern:
-save('allPheros.mat', 'allPheros');
 end
 
