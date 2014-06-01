@@ -1,4 +1,4 @@
-function [bestPath, bestPathCosts] = SACO(E, V, s, d, nrAnts, rho, exitCond, q, visual)
+function [bestPath, bestPathCosts] = SACO(E, V, s, d, nrAnts, rho, exitCond, q, visual, initialPhero)
 % SACO Implementation der Standard Ant Colony Optimization
 % PARAMETER:
 %           E,V             Graph auf dem ein kuerzester Weg
@@ -22,6 +22,7 @@ function [bestPath, bestPathCosts] = SACO(E, V, s, d, nrAnts, rho, exitCond, q, 
 %                           1, 2: selbsterklaerend (siehe exitCond)
 %                           3: Aenderung der Guete im letzten Durchlauf
 %           visual          True: Visualisierung an
+%           initialPhero    initiale Pheromonstaerke
 %           
 % RETURN:
 %           bestPath        Kuerzester gefundener Weg. Repraesentiert als
@@ -38,8 +39,11 @@ paths = cell (1, nrAnts);
 costs = zeros (1, nrAnts); % Kosten der Ameisenpfade
 bestPathCosts = Inf;
 
+% Fuers Protokoll
+allPheros = cell(1,q(1));
+
 % INITIALISIERUNG
-phero = (E>0)*1; % Alle vorhandenen Kanten: Pheromonstaerke 1
+pheros = (E>0)*initialPhero; % Alle vorhandenen Kanten: initiale Pheromonstaerke
 
 % SIMULATION
 finished = false;
@@ -52,7 +56,7 @@ while ~finished
         v = s;
         paths{a}= [s];
         while v ~= d
-            v = nextNode(phero, v);
+            v = nextNode(pheros, v);
             paths{a}=[paths{a} v];
         end
         paths{a} = removeCycles(paths{a});
@@ -61,6 +65,7 @@ while ~finished
     
     % Aktualisiere Pheromonstaerken:
     pheros = (1-rho)*pheros + depositPheros(paths, costs, n);
+    allPheros{1,iterations} = pheros;
     
     % Aktualisiere Hall of Fame:
     [newBestPathCosts, newBestPathIdx] = min(costs);
@@ -93,5 +98,8 @@ while ~finished
     
     
 end
+
+% Entwicklung der Pheromone speichern:
+save('allPheros.mat', 'allPheros');
 end
 
