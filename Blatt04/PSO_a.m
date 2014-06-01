@@ -1,5 +1,5 @@
 % 1) TESTPARAMETER
-flagPlot = true;
+flagPlot = false;
 nrRuns = 100;
 
 % 2) PARAMETER DES PSO

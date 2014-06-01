@@ -49,7 +49,6 @@ while ~finished
     iterations = iterations + 1
     % Jede Ameise ist einmal dran:
     for a = 1:nrAnts
-        a
         v = s;
         paths{a}= [s];
         while v ~= d
@@ -66,7 +65,7 @@ while ~finished
     % Aktualisiere Hall of Fame:
     [newBestPathCosts, newBestPathIdx] = min(costs);
     if (newBestPathCosts < bestPathCosts)
-        deltaCosts = bestPathCosts - newBestPathCosts;
+        deltaCosts = abs(bestPathCosts - newBestPathCosts);
         bestPathIdx = newBestPathIdx;
         bestPath = paths{bestPathIdx};
         bestPathCosts = newBestPathCosts;
@@ -87,7 +86,7 @@ while ~finished
     
     % Abbruchbedingungen:
     if (exitCond(1) && iterations > q(1)-1)...
-            || (exitCond(2) && costs(bestPathIdx) < q(2))...
+            || (exitCond(2) && bestPathCosts < q(2))...
             || (exitCond(3) && deltaCosts < q(3))
         finished = true;
     end
