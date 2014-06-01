@@ -9,7 +9,7 @@ function pheroDeposition = depositPheros(paths, costs, n)
 
 % RETURN
 % pehroDepostion    Neu deponierte Pheromone auf den Kanten als (n x n)-Array
-%                   (Adjazensmatrix).
+%                   (Adjazenzmatrix).
 
 % Initialisierung:
 pheroDeposition = zeros (n);
@@ -20,7 +20,7 @@ for a = 1 : size(paths,2)
     % Gehe alle Knoten des Weges durch:
     for v = 1 : size(p,2)-1
         w = v+1;
-        pheroDeposition(v,w) = pheroDeposition(v,w) + 1/costs(a);
+        pheroDeposition(p(v),p(w)) = pheroDeposition(p(v),p(w)) + 1/costs(a);
     end
 end
 

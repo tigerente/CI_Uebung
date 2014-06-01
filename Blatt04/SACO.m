@@ -1,12 +1,14 @@
-function [bestPath, bestPathCosts] = SACO(E, s, d, nrAnts, rho, exitCond, q)
+function [bestPath, bestPathCosts] = SACO(E, V, s, d, nrAnts, rho, exitCond, q, visual)
 % SACO Implementation der Standard Ant Colony Optimization
 % PARAMETER:
-%           E               Graph auf dem ein kuerzester Weg
+%           E,V             Graph auf dem ein kuerzester Weg
 %                           angenaehert werden soll.
-%                           E=Kanten: n x n - Array (Adjaszenzmatrix).
+%           -> E            Kanten: n x n - Array (Adjazenzmatrix).
 %                                     E(i,j)=0: keine Kante zwischen i &  j
 %                                     E(i,j)> 0: Kantengewicht (Distanz)
 %                                     zwischen i und j
+%           -> V            Koordinatenliste der Knoten. Nur fuer
+%                           Visualisierung
 %           s               Index des Startknotens
 %           d               Index des Zielknotens
 %           nrAnts          Anzahl der suchenden Ameisen
@@ -19,6 +21,7 @@ function [bestPath, bestPathCosts] = SACO(E, s, d, nrAnts, rho, exitCond, q)
 %                           Array der Laenge 3.
 %                           1, 2: selbsterklaerend (siehe exitCond)
 %                           3: Aenderung der Guete im letzten Durchlauf
+%           visual          True: Visualisierung an
 %           
 % RETURN:
 %           bestPath        Kuerzester gefundener Weg. Repraesentiert als
@@ -38,6 +41,7 @@ bestPathCosts = Inf;
 % INITIALISIERUNG
 phero = (E>0)*1; % Alle vorhandenen Kanten: Pheromonstaerke 1
 
+% SIMULATION
 finished = false;
 iterations = 0;
 while ~finished
@@ -65,6 +69,19 @@ while ~finished
         bestPathIdx = newBestPathIdx;
         bestPath = paths{bestPathIdx};
         bestPathCosts = newBestPathCosts;
+    end
+    
+    % Visualisierung:
+    if visual
+        figure;
+        gplot(E,V, 'k');
+        hold all;
+        for a = 1 : nrAnts
+            pathMatrix = path2Mat (paths{a}, n);
+            gplot(pathMatrix,V);
+        end
+        hold off;
+        drawnow;
     end
     
     % Abbruchbedingungen:
