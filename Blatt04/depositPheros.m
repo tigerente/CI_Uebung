@@ -20,7 +20,7 @@ for a = 1 : size(paths,2)
     % Gehe alle Knoten des Weges durch:
     for v = 1 : size(p,2)-1
         w = v+1;
-        pheroDeposition(v,w) = pheroDepostion(v,w) + 1/costs(a);
+        pheroDeposition(v,w) = pheroDeposition(v,w) + 1/costs(a);
     end
 end
 
