@@ -50,7 +50,7 @@ while ~finished
             paths{a}=[paths{a} v];
         end
         paths{a} = removeCycles(paths{a});
-        costs(a) = calcCosts(paths{a});
+        costs(a) = calcCosts(paths{a}, E);
     end
     
     % Aktualisiere Pheromonstaerken:

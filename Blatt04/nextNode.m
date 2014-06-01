@@ -13,7 +13,7 @@ function idxNextNode = nextNode(pheromoneMap, currentNodeIdx)
 
 % Pheromonkonzentration der Kanten auslesen
 targetNodes = find(pheromoneMap(currentNodeIdx,:) > 0)';
-pheromones = pheromoneMap(targetNodes);
+pheromones = pheromoneMap(currentNodeIdx, targetNodes)';
 pheromones(:,2) = targetNodes;
 
 % Pheromonkonzentrationen relativieren und sortieren
